@@ -1,0 +1,171 @@
+/* Reset default margins & paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General styles */
+body {
+    background: url('../images/greenleaf.png') no-repeat center center fixed;
+    background-size: cover;
+    text-align: center;
+    color: black;
+    overflow-x: hidden;
+    z-index: 100;
+}
+
+.welcome {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 60px;
+    font-weight: bold;
+}
+
+.title {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+picture {
+    min-width: 240px;
+}
+
+picture img {
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    transform: translateX(-100vw);
+    opacity: 0;
+    transition: all 1s;
+    margin-bottom: 150px;
+    font-family: 'Sansita Swashed', cursive;
+    line-height: 1.8em;
+}
+
+.c1 {
+    margin-right: 170px;
+}
+
+.c2 {
+    margin-left: 270px;
+}
+
+.container:nth-of-type(even) {
+    transform: translateX(100vw);
+}
+
+.container:nth-of-type(even) picture {
+    order: -1;
+}
+
+.container.in-view {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.container picture {
+    flex: 2;
+}
+
+.container .caption {
+    flex: 1;
+    padding: 1em;
+}
+
+main {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 1.2em;
+    line-height: 1.8em;
+}
+
+article {
+    font-size: 40px;
+    line-height: 1.8em;
+}
+
+.headline {
+    color: white;
+}
+
+.short-title {
+    color: aquamarine;
+}
+
+main {
+    margin-top: 200px;
+    margin-bottom: 200px;
+}
+
+/* Scroll Indicator Styles */
+.scroll-indicator {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #0ea97a, #0f5158);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
+    transition: opacity 0.4s ease-in-out;
+    animation: bounce 1.5s infinite ease-in-out;
+}
+
+/* Bouncing Text Effect */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translate(-50%, 0);
+    }
+
+    50% {
+        transform: translate(-50%, -8px);
+    }
+}
+
+h1 {
+    color: white;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #bbb;
+    font-size: 20px;
+    line-height: 2em;
+    margin-bottom: 20px;
+}
+
+
+.link {
+    text-decoration: none;
+    color: rgb(13, 160, 168);
+    font-size: 20px;
+}
+
+.link:hover {
+    color: red;
+}
+
+.dark-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+}

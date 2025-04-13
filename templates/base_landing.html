@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <title>{% block title %}E-Waste Management{% endblock %}</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300..900&display=swap" rel="stylesheet">
+
+    <div id="embedded-header"></div>
+    <div id="embedded-navbar"></div>
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <!-- Include Header -->
+    {% include 'header.html' %}
+
+    <!-- Include Navbar -->
+    {% comment %} {% include 'navbar.html' %} {% endcomment %}
+
+     <!-- Flex Container -->
+    <div class="flex-container">
+        <!-- Main Content Block -->
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+    </div>
+    <!-- Include Footer -->
+    <div id="embedded-footer">
+        {% include 'footer.html' %}
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

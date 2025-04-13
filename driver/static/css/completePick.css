@@ -1,0 +1,188 @@
+/* html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;;
+}
+
+.main-content {
+    flex: 1;
+} */
+
+body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #F5F8EE;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-text {
+    background-color: #8AA679;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 80%;
+    /* Ensures it doesn’t stretch */
+    word-wrap: break-word;
+    /* Ensures text stays inside */
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+}
+
+.status-title {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 50px;
+    color: #2d621a;
+    text-align: center;
+    /* margin: 20px; */
+    padding: 40px 0px 20px 0px;
+}
+
+.container {
+    width: 80%;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #D9DFCE;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.pickup-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    margin-left: 50px;
+}
+
+
+/* -------------------green box--------------------- */
+.pickup-box {
+    background-color: #eef5e9;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 2px solid #5a7d5a;
+    text-align: left;
+    width: 600px;
+    margin: 20px auto;
+}
+
+.pickup-box,
+p {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    padding: 15px;
+}
+
+.pickup-checkbox {
+    margin-right: 20px;
+    transform: scale(2.5);
+    cursor: pointer;
+    margin-left: 50px;
+}
+
+/* Change color when checkbox is checked */
+.pickup-checkbox:checked+.pickup-box {
+    background-color: #8AA679;
+    color: white;
+}
+
+.pickup-checkbox:checked+.pickup-box p {
+    color: white;
+}
+
+/* ------------------complete button -----------------------*/
+.completed-button {
+    background-color: #5a7d5a;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    margin-top: 20px;
+    width: 300px;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.completed-button:hover {
+    background-color: #3d5a3d;
+}
+
+
+/* ------------------Popup Box & text----------------------------*/
+.popup-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #F5F8EE;
+    padding: 30px;
+    border-radius: 10px;
+    width: 600px;
+    height: 600px;
+    text-align: center;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-container h2 {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 50px;
+    color: #2d621a;
+    margin-bottom: 20px;
+}
+
+.popup-container p {
+    font-family: 'Inter', sans-serif;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+/* ---------------------- Popup Buttons ---------------------- */
+.popup-buttons {
+    display: flex;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+/* Button Styles */
+.popup-content button {
+    background: #134E1A;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+/* Cancel button specific color */
+.popup-content button.cancel {
+    background: #A63232;
+}
+
+
+.popup-content button:hover {
+    background: #298a35;
+}
+
+.popup-content button.cancel:hover {
+    background: #c64949;
+}

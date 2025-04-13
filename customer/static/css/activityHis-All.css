@@ -1,0 +1,155 @@
+/* html {
+    height: 100%;
+} */
+
+body {
+    /* font-family: Arial, sans-serif; */
+    background-color: #F5F8EE;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    /* display: flex;
+    flex-direction: column; */
+}
+
+.title {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 32px;
+    color: #2d621a;
+    padding: 40px;
+}
+
+.address-word {
+    white-space: pre-wrap;
+}
+
+.address-row {
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+.address-icon {
+    /* margin-right: 4px; */
+    flex-shrink: 0;
+}
+
+/* ------------------------Navigation Buttons -----------------*/
+.btn-container {
+    display: flex;
+    justify-content: center;
+    /* Center the buttons */
+    gap: 30px;
+    /* Add space between buttons */
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    background: #97B07A;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    min-width: 150px;
+    /* Make all buttons equal width */
+    text-align: center;
+}
+
+.tab-btn.active {
+    background: #2d621a;
+}
+
+.tab-btn:hover {
+    background: #526938;
+}
+
+/*----------------------- Activity box------------------- */
+.activity-container {
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+}
+
+.activity-card {
+    background: #D9DFCE;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+
+/*------------------------ Table Layout------------------------ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #134E1A;
+    overflow: hidden;
+    table-layout: fixed;
+}
+
+/* ----------------------Table cells----------------------------- */
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-left: 1px solid #134E1A;
+    border-right: 1px solid #134E1A;
+    border-radius: 5px;
+    /* box-sizing: border-box; */
+}
+
+/* Remove border from the last row */
+tr:last-child {
+    border-bottom: none;
+}
+
+/* --------------------Status Badges------------------------------ */
+.status {
+    font-weight: bold;
+}
+
+.completed {
+    color: green;
+}
+
+.rejected {
+    color: red;
+}
+
+/* ---------------------Points Display-------------------------- */
+.points-earned {
+    background: #487319;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.points-deducted {
+    background: #E8CB24;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.points-rejected {
+    background: #FF0000;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.reason {
+    background: red;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+}

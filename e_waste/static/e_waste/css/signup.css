@@ -1,0 +1,248 @@
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: rgba(245, 248, 238, 0.85);
+    width: 700px;
+    margin: 0 auto;
+    padding: 30px;
+    text-align: center;
+    margin-top: 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+body {
+    text-align: center;
+    margin: 0;
+    background-image: url("../images/greenleaf.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+}
+
+.form {
+    background-color: #f8f8ff;
+    display: block;
+    padding: 20px;
+    max-width: 70%;
+    border-radius: 10px;
+    margin-left: 90px;
+    margin-top: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.form-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+
+.inputGroup, .input {
+    font-family: 'Segoe UI', sans-serif;
+    max-width: 310px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.inputGroup input {
+    font-size: 100%;
+    padding: 0.8em;
+    outline: none;
+    border: 2px solid #53748b;
+    background-color: transparent;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.inputGroup label {
+    font-size: 16px;
+    position: absolute;
+    left: 0;
+    padding: 0.8em;
+    margin-left: 0.5em;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    color: rgb(100, 100, 100);
+}
+
+.inputGroup :is(input:focus, input:valid)~label {
+    transform: translateY(-50%) scale(.9);
+    margin: 0em;
+    margin-left: 1.3em;
+    padding: 0.4em;
+    background-color: #f8f8ff;
+}
+
+.inputGroup :is(input:focus, input:valid) {
+    border-color: rgb(150, 150, 200);
+}
+
+.input select {
+    font-size: 100%;
+    padding: 0.8em;
+    outline: none;
+    border: 2px solid #53748b;
+    background-color: transparent;
+    border-radius: 20px;
+    width: 100%;
+    appearance: none; /* Removes default dropdown arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer
+}
+
+/* Custom arrow icon */
+.input::after {
+    content: "▼";
+    font-size: 12px;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgb(100, 100, 100);
+    pointer-events: none;
+}
+
+/* Floating label effect */
+.input select:focus ~ label,
+.input select:not([value=""]) ~ label {
+    transform: translateY(-50%) scale(.9);
+    margin: 0;
+    margin-left: 1.3em;
+    padding: 0.4em;
+    background-color: #f8f8ff;
+}
+
+/* Change border color on focus */
+.input select:focus {
+    border-color: rgb(150, 150, 200);
+}
+
+.codecityside {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    justify-content: center;
+    max-width: 310px;
+    margin: 0 auto;
+    margin-bottom: -10px;
+}
+
+.submit {
+    padding: 0.75rem 1.25rem;
+    background-color: #4F46E5;
+    color: #ffffff;
+    text-transform: uppercase;
+    line-height: 1.25rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    width: 300px;
+}
+
+.submit:hover {
+    background-color: #3b39cc;
+}
+
+.login-link {
+    color: #6B7280;
+    font-size: 1.05rem;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-link a {
+    text-decoration: none;
+    color: #4F46E5;
+    font-weight: bold;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+#logo:hover {
+    cursor: pointer;
+}
+
+/* -----------------Popups (Confirmation & Tracking)---------- */
+.popup-container {
+    width: 100%;
+    height: 100%;
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5); 
+    justify-content: center;
+    align-items: center;
+}
+
+/* ------------------Popup Box ----------------------------*/
+.popup-content {
+    background: #F5F8EE;
+    padding: 30px;
+    border-radius: 10px;
+    width: 700px; 
+    text-align: center;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+}
+
+.popup-logo {
+    height: 200px;
+    width: 500px;
+}
+
+.popup-content h2 {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 32px;
+    color: #487319;  
+    padding: 10px;
+}
+
+.popup-content h1 {
+    font-size: 32px;
+    color: #134E1A;  
+    padding: 10px;
+}
+
+/* -----------------------Popup Buttons---------------------- */
+.popup-content button {
+    background: #134E1A;
+    color: white;
+    border: none;
+    padding: 15px 40px; 
+    font-size: 18px; 
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.popup-content button.cancel {
+    background: #A63232; 
+}
+
+.popup-content button.proceed {
+    background: #134E1A; 
+}
+
+.popup-content button:hover {
+    background: #298a35;
+}
+
+.popup-content button.cancel:hover {
+    background: #c64949; 
+}
+
+.popup-content button.proceed:hover {
+    background: #298a35; 
+}
+

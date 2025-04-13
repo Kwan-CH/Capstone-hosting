@@ -1,0 +1,206 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+}
+
+body {
+    background-color: #F5F8EE;
+    text-align: center;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.title {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 32px;
+    color: #2d621a;
+    padding: 40px;
+}
+
+/* ------------------------Navigation Buttons -----------------*/
+.btn-container {
+    display: flex;
+    justify-content: center;
+    /* Center the buttons */
+    gap: 30px;
+    /* Add space between buttons */
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    background: #97B07A;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    min-width: 150px;
+    /* Make all buttons equal width */
+    text-align: center;
+}
+
+.tab-btn.active {
+    background: #2d621a;
+}
+
+.tab-btn:hover {
+    background: #526938;
+}
+
+/*----------------------- Activity box------------------- */
+.activity-container {
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+    margin-top: 0;
+}
+
+.activity-card {
+    background: #D9DFCE;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: left;
+}
+
+/*------------------------ Table Layout------------------------ */
+table {
+    width: 100%;
+    /* Keep table inside the card */
+    max-width: 100%;
+    /* Prevent overflow */
+    border-collapse: collapse;
+    border: 2px solid #134E1A;
+    table-layout: fixed;
+    /* Prevent column expansion */
+}
+
+/* ----------------------Table cells----------------------------- */
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-left: 1px solid #134E1A;
+    border-right: 1px solid #134E1A;
+    border-radius: 5px;
+}
+
+/* Remove border from the last row */
+tr:last-child {
+    border-bottom: none;
+}
+
+/* ---------------------Points Display-------------------------- */
+.points-deducted {
+    background: #E8CB24;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* ---------------------Points Display-------------------------- */
+/* #show-qr {
+    background-color: #134E1A;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 15px;
+    text-decoration: none;
+} */
+
+.qr-code {
+    background-color: #134E1A;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.qr-code:hover {
+    background-color: #0d6936;
+}
+
+.show-qr {
+    width: 300px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+/* #show-qr:hover {
+    background-color: #0d6936;
+} */
+
+/* -----------------Popups (QR Code)---------- */
+.popup-container {
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+/* ------------------Popup Box ----------------------------*/
+.popup-content {
+    background: #F5F8EE;
+    padding: 30px;
+    border-radius: 10px;
+    width: 700px;
+    text-align: center;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+}
+
+.popup-content h2 {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 32px;
+    color: #487319;
+    padding: 10px;
+}
+
+.popup-content h1 {
+    font-size: 32px;
+    color: #134E1A;
+    padding: 10px;
+}
+
+/* -----------------------Popup Buttons---------------------- */
+.popup-content button {
+    background: #134E1A;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.popup-content button.return:hover {
+    background: #298a35;
+}
+
+.popup-logo {
+    width: 300px;
+    height: 300px;
+    display: grid;
+    margin: auto;
+}
