@@ -1,0 +1,145 @@
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: rgba(245, 248, 238, 0.85);
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 20px;
+    align-items: center;
+    text-align: center;
+    margin-top: 50px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    max-height: 650px;
+}
+
+body {
+    text-align: center;
+    margin: 0;
+    background-color: #F5F8EE;
+    background-image: url("../images/greenleaf.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.form {
+    background-color: #f8f8ff;
+    display: block;
+    padding: 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.form-title {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    text-align: center;
+    color: #000;
+}
+
+.form button {
+    outline: none;
+    border: 1px solid #e5e7eb;
+    margin: 8px 0;
+}
+
+.submit {
+    padding: 0.75rem 1.25rem;
+    background-color: #4F46E5;
+    color: #ffffff;
+    text-transform: uppercase;
+    line-height: 1.25rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    width: 300px;
+}
+
+.submit:hover {
+    background-color: #3b39cc;
+    cursor: pointer;
+}
+
+.link {
+    color: #6B7280;
+    font-size: 1.05rem;
+    line-height: 1.25rem;
+    text-align: center;
+}
+
+.link a {
+    text-decoration: underline;
+}
+
+.login {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#signup {
+    text-decoration: none;
+    color: #4F46E5;
+    font-weight: bold;
+}
+
+#logo:hover {
+    cursor: pointer;
+}
+
+#embedded-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+#forgot-password {
+    text-decoration: none;
+    color: #4F46E5;
+    font-weight: bold;
+}
+
+.inputGroup {
+    font-family: 'Segoe UI', sans-serif;
+    max-width: 310px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.inputGroup input {
+    font-size: 100%;
+    padding: 0.8em;
+    outline: none;
+    border: 2px solid #53748b;
+    background-color: transparent;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.inputGroup label {
+    font-size: 16px;
+    position: absolute;
+    left: 0;
+    padding: 0.8em;
+    margin-left: 0.5em;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    color: rgb(100, 100, 100);
+}
+
+.inputGroup :is(input:focus, input:valid)~label {
+    transform: translateY(-50%) scale(.9);
+    margin: 0em;
+    margin-left: 1.3em;
+    padding: 0.4em;
+    background-color: #f8f8ff;
+}
+
+.inputGroup :is(input:focus, input:valid) {
+    border-color: rgb(150, 150, 200);
+}

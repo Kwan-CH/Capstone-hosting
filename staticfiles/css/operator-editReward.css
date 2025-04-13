@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Meddon&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #F5F8EE;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 32px;
+    color: #2d621a;  
+    text-align: center;
+    margin-bottom: 47px;
+}
+
+.text {
+  font-size:small;
+}
+
+.text-box {
+    width: 550px; 
+    height: 25px; 
+    background-color: #97B07A; 
+    border-radius: 15px; 
+    margin: -20px auto 20px auto; 
+}
+
+.container {
+    width: 80%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #D9DFCE;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+p {
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+/* Form Labels */
+label {
+    font-weight: bold;
+    display: block;
+    margin: 10px 0 5px;
+    text-align: left;
+}
+
+/* -------------------------Input Fields------------------------*/
+select, input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #97B07A;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+
+select {
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+/* -------------------------Buttons----------------------------- */
+.btn-container {
+    display:flex;
+    justify-content: center;
+    padding-bottom:150px;
+    gap:35px;
+}
+
+.button1, .button2{
+  display:inline-block;
+}
+
+.btn-save, .btn-cancel {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  width:100px;
+}
+
+.btn-save{
+  color:white;
+  background-color:#3f6f40;
+  transition: all 0.15s;
+}
+
+.btn-save:hover{
+  background-color:white;
+  color:#61b763;
+  border: 1px solid #61b763;
+}
+
+.btn-save:active{
+  opacity:0.5;
+}
+
+.btn-cancel{
+  color:black;
+  background-color:#D9DFCE;
+  transition: all 0.15s;
+}
+
+.btn-cancel:hover{
+  opacity:0.7;
+}
+
+.btn-cancel:active{
+  opacity:0.4;
+}
+
+/* -----------------Popups (Confirmation & Tracking)---------- */
+.popup-container {
+    width: 100%;
+    height: 100%;
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5); 
+    justify-content: center;
+    align-items: center;
+}
+
+/* ------------------Popup Box ----------------------------*/
+.popup-content {
+    background: #F5F8EE;
+    padding: 30px;
+    border-radius: 10px;
+    width: 700px; 
+    text-align: center;
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+}
+
+.popup-logo{
+  height:200px;
+  width:200px;
+}
+
+
+.popup-content h2 {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 32px;
+    color: #487319;  
+    padding: 10px;
+}
+
+.popup-content h1 {
+    font-size: 32px;
+    color: #134E1A;  
+    padding: 10px;
+}
+
+.popup-text{
+  font-weight:400;
+}
+
+/* -----------------------Popup Buttons---------------------- */
+.popup-content button {
+    background: #134E1A;
+    color: white;
+    border: none;
+    padding: 15px 40px; 
+    font-size: 18px; 
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.popup-content button.cancel {
+    background: #A63232; 
+}
+
+.popup-content button.proceed {
+    background: #134E1A; 
+}
+
+.popup-content button:hover {
+    background: #298a35;
+}
+
+.popup-content button.cancel:hover {
+    background: #c64949; 
+}
+
+.popup-content button.proceed:hover {
+    background: #298a35; 
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Input Container */
+.input-container {
+  display:flex;
+  align-items: center; /* Ensures vertical alignment */
+  gap:4px;
+}
+
+/* Input Field */
+input {
+  padding: 8px;
+  height: 38px; /* Set fixed height */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #eaeaea;
+  outline: none;
+  display:inline-block;
+  margin-bottom:0;
+}
+
+/* Edit Button */
+.edit-btn {
+  background-color: #004d00;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  height: 38px; /* Ensure same height as input */
+  width:38px;
+  display: inline-block;
+}
+

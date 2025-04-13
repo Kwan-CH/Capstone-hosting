@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Meddon&display=swap');
+
+body {
+  background-color: #f5f8ee;
+  margin: 0px;
+}
+
+
+.title {
+  font-family: 'Sansita Swashed', cursive;
+  font-size: 32px;
+  color: #487319;
+  padding: 10px;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.pagination {
+  /* padding-top: 0; */
+  margin-top: -300px;
+  margin-bottom: 100px;
+  text-align: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+p {
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.text {
+  font-weight: 450;
+}
+
+.completedTable {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 30vh;
+  width: 100%;
+  margin-bottom: 320px;
+  position: abosolute;
+  top: 1000px;
+
+  /* margin-top: 0px */
+}
+
+table {
+  width: 90%;
+  border-collapse: collapse;
+  position: abosolute;
+  top: 1000px;
+  /* margin-top: 0px; */
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #8a9b68;
+  /* Greenish Header */
+  color: black;
+  font-weight: bold;
+}
+
+td {
+  background-color: #fff;
+}
+
+tr {
+  height: 70px;
+}

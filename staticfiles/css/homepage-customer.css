@@ -1,0 +1,156 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    background-color: #222;
+    color: #bbb;
+    margin: 0;
+    padding: 0;
+    /* padding-top: 30px; */
+    padding-bottom: 100px;
+    /* padding: 30px; */
+    /* margin: 30; */
+    /* original padding 30px */
+}
+
+h1 {
+    color: white;
+}
+
+.background,
+header {
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translatez(0);
+    z-index: -1;
+
+}
+
+.background img {
+    min-width: 100%;
+    min-height: 100%;
+}
+
+path {
+    fill: white;
+    opacity: 0.7;
+}
+
+main {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+article {
+    display: table-cell;
+    position: relative;
+    vertical-align: middle;
+}
+
+h1,
+p {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.first-title {
+    padding-top: 200px;
+}
+
+.headline {
+    font-size: 60px;
+    max-width: none;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    line-height: 100px;
+}
+
+.short-title {
+    color: aquamarine;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 125px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 200px 0;
+}
+
+.second {
+    gap: 200px;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(13, 160, 168);
+}
+
+/* a:hover {
+    color: red
+} */
+
+.btnlink:hover {
+    color: red
+}
+
+main {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 1.2em;
+    line-height: 1.8em;
+}
+
+.last-container {
+    padding-bottom: 100px;
+}
+
+/* Scroll Indicator Styles */
+.scroll-indicator {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #0ea97a, #0f5158);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
+    transition: opacity 0.4s ease-in-out;
+    animation: bounce 1.5s infinite ease-in-out;
+}
+
+/* Bouncing Text Effect */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translate(-50%, 0);
+    }
+
+    50% {
+        transform: translate(-50%, -8px);
+    }
+}
