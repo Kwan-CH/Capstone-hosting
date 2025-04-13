@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            z-index: 2;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #97B07A;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            border: 2px solid white;
+            box-sizing: border-box;
+            border-radius: 10px;
+        }
+
+        li {
+            padding: 0;
+            flex: 1;
+            border-right: 1px solid white;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 15px 12px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #6d9045;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<ul>
+    <li><a class="active" href="{% url 'customer:schedule_pickup'%}">Schedule Pickup</a></li>
+    <li><a href="{% url 'customer:redeem_rewards_page' %}">Earned Reward Points</a></li>
+    <li><a href="{% url 'customer:pickup_status' %}">Pickup Status</a></li>
+    <li><a href="{% url 'customer:history_all' %}">Recent Activity</a></li>
+</ul>
+
+</body>
+</html>
+
+

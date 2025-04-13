@@ -1,0 +1,202 @@
+{% extends 'customer/base_customer.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/schedulePick.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Schedule Pickup{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="title-container">
+            <h1 class="status-title">Schedule Your E-Waste Pickup</h1>
+            <p class="progress-text">Fill out the form below to schedule a pickup for your e-waste.</p>
+            <div class="progress-box"></div>
+        </div>
+
+        <form method="post" id="schedule-pickup-form" action="{% url 'customer:schedule_pickup' %}">
+<!--        {% comment %} <form method="post"> {% endcomment %}-->
+            {% csrf_token %}
+            <!-- Waste Type (Dropdown) -->
+            <label for="waste-type">Waste Type:</label>
+            <select id="waste-type" name="waste_type" required>
+                <option disabled selected>Select Waste Type</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.categoryID }}">{{ cat.itemType }}</option>
+                {% endfor %}
+
+            </select>
+
+            <!-- Quantity (Optional) -->
+            <label for="quantity-items">Quantity:</label>
+            <input type="number" id="quantity-items" name="quantity_items" placeholder="Enter the number of items" min="1" required>
+
+            <label for="quantity-weight">Weight:</label>
+            <select id="quantity-weight" name="quantity_weight" required>
+                <option disabled selected>Select weight</option>
+                <option value="less1">&lt;1kg</option>
+                <option value="less2">&lt;2kg</option>
+                <option value="less5">&lt;5kg</option>
+                <option value="more5">&gt;5kg</option>
+            </select>
+
+
+            <!-- Address -->
+            <label for="street">Address:</label>
+            <div class="address-container">
+                <input type="text" name="street" id="street" placeholder="Enter your address" required>
+                <div class="address">
+                <button class="address-btn" id="use-current-location" onclick="fillAddress()">Use My Address</button>
+                </div>
+            </div>
+
+            <input type="hidden" name="state" id="state_text">
+            <div class="state"> <label for="quantity-items">State:</label>
+                <div class="inputstate">
+                    <select id="stateDropdown" required onchange="populateAreaDropdown('stateDropdown', 'areaDropdown', null, 'state_text', '{{API_KEY}}')">
+                        <option disabled selected>Select your state</option>
+                        {% for name, code in states.items %}
+                            <option value="{{code}}">{{name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="codecityside">
+                <div class="codecity">
+                    <label>Postal Code:</label>
+                    <input type="text" class="input2 margin" placeholder="Enter your postal code"
+                        name="postal_code" id="postal_code" required>
+                </div>
+
+                <div class="codecity">
+                    <label for="quantity-items">Area:</label>
+                    <select id="areaDropdown" class="input2" name="area" required></select>
+                </div>
+            </div>
+
+
+
+            <!-- Date & Time  -->
+            <label for="pickup-date">Preferred Pickup Date/Time (DD/MM/YYY):</label>
+            <input type="date" id="pickup-date" name="pickup_date" required>
+            <input type="time" id="pickup-time" name="pickup_time" required>
+            <br><br>
+<!--            {% comment %} <a href="{% url 'customer:waste_category' %}"><p>View the waste category and points here</p></a> {% endcomment %}-->
+            <a href="{% url 'customer:waste_category' %}"><p>View the waste category and points here</p></a>
+            <br><br>
+
+            <!-- Buttons -->
+            <div class="btn-container">
+                <button type="submit" class="btn submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Confirmation Popup -->
+    <div id="confirmation-popup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <h2><i>Confirmation</i></h2>
+            <p>Please verify all the information is correct before proceeding.</p>
+            <button class="btn cancel" onclick="closeConfirmationPopup()">Cancel</button>
+            {% comment %} <button class="btn proceed" onclick="showTrackingPopup()">Proceed</button> {% endcomment %}
+            <button class="btn proceed" onclick="submitForm()">Proceed</button>
+        </div>
+    </div>
+
+    <!-- Tracking Number Popup -->
+    <div id="tracking-popup" class="tracking-popup-container" style="display: none;">
+        <div class="tracking-popup-content">
+            <img src="{% static 'images/companylogo.jpg' %}" alt="JAS Logo" class="popup-logo">
+            <h2>Your Tracking Number is</h2>
+            <h1 id="tracking-number">{% if tracking_number %}{{ tracking_number }}{% endif %}</h1>
+            <br>
+            <p>You will receive an email containing the driver details once the driver has been assigned.</p>
+            <button class="btn return" onclick="closeTrackingPopup()">Return</button>
+        </div>
+    </div>
+
+    <script src="{% static 'js/schedulePOP.js' %}"></script>
+    <script src="{% static 'populateAreaDropdown.js' %}"></script>
+{% endblock %}
+
+
+{% block extra_js %}
+    {% if submitted %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                showTrackingPopup();
+            });
+        </script>
+    {% endif %}
+
+    {% if error %}
+        <script>
+            {% comment %} alert({{error}}) {% endcomment %}
+            var errorMessage = "{{ error|escapejs }}";
+            alert(errorMessage);
+        </script>
+    {% endif %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("use-current-location").addEventListener("click", function(event) {
+                event.preventDefault();  // Prevent unnecessary form submission
+            });
+        });
+
+        // Set the minimum date to tomorrow
+        document.addEventListener('DOMContentLoaded', function() {
+            var dateInput = document.getElementById('pickup-date');
+            var today = new Date();
+            var tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            var dd = String(tomorrow.getDate()).padStart(2, '0');
+            var mm = String(tomorrow.getMonth() + 1).padStart(2, '0'); // January is 0!
+            var yyyy = tomorrow.getFullYear();
+            var minDate = yyyy + '-' + mm + '-' + dd;
+            dateInput.setAttribute('min', minDate);
+        });
+
+         // Validate form fields
+        function validateForm() {
+            var form = document.getElementById('schedule-pickup-form');
+            var wasteType = document.getElementById('waste-type').value;
+            var quantityItems = document.getElementById('quantity-items').value;
+            var quantityWeight = document.getElementById('quantity-weight').value;
+            var address = document.getElementById('address').value;
+            var pickupDate = document.getElementById('pickup-date').value;
+            var pickupTime = document.getElementById('pickup-time').value;
+
+            if (!wasteType || !quantityItems || !quantityWeight || !address || !pickupDate || !pickupTime) {
+                alert('Please fill out all fields before proceeding.');
+                return false;
+            }
+
+            // Show confirmation popup
+            document.getElementById('confirmation-popup').style.display = 'block';
+        }
+
+        function fillAddress(){
+            document.getElementById("street").value = '{{profile.street}}';  // Autofill address field
+            document.getElementById('postal_code').value = '{{profile.postalCode}}';
+
+            const customerState = '{{profile.state}}';
+            const selectedOption = Array.from(stateDropdown.options).find(option => option.text === customerState);
+            if (selectedOption) {
+                selectedOption.selected = true;
+            }
+            populateAreaDropdown('stateDropdown', 'areaDropdown', '{{profile.area}}', 'state_text', '{{API_KEY}}')
+        }
+
+        // Submit the form
+        function submitForm() {
+            document.getElementById('schedule-pickup-form').submit();
+        }
+
+
+    </script>
+
+{% endblock %}

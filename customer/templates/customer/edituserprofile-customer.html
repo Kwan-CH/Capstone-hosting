@@ -1,0 +1,130 @@
+{% extends 'customer/base_customer.html' %}
+{% load static %}
+
+{% block title %}Edit User Profile{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/edituserprofile-customer.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="container-top">
+        <!-- Display the user's actual profile picture if available -->
+        {% if profile.profile_picture %}
+            <img id="user" src="{{ profile.profile_picture.url }}" width="200" height="200" alt="User Profile Picture">
+        {% else %}
+            <img id="user" src="{% static 'images/userprofilelogonobg.png' %}" width="200" height="200" alt="Default Profile Picture">
+        {% endif %}
+
+        <h1>Edit Your User Profile</h1>
+    </div>
+</div>
+
+        <div class="container-bottom">
+            <form action="{% url 'customer:edit_profile' %}" id="editProfileForm" method="post">
+                {% csrf_token %}
+
+                <label>Name</label>
+                <input type="text" name="fullname" class="input" placeholder="Full Name" value="{{profile.name}}" required>
+
+                <label>Email</label>
+                <input type="email" name="email" class="input" placeholder="Email Address" value="{{profile.email}}" required>
+
+                <label>Contact Number</label>
+                <input type="text" name="contact_number" pattern="01\d{8,9}" class="input" placeholder="Contact Number" value="{{profile.phoneNumber}}" required>
+                {% if phone_error %}
+                    <div class="error-message">
+                        Invalid phone number. Please enter a valid phone number.
+                    </div>
+                {% endif %}
+
+                <label>State:</label>
+                <div>
+                    <input type="hidden" name="state" id="state_text">
+                    <select class="input" id="stateDropdown" onchange="populateAreaDropdown('stateDropdown', 'areaDropdown', null, 'state_text', '{{API_KEY}}')" required>
+                        <option disabled selected>Select your state</option>
+                        {% for state, code in states.items %}
+                            {% if profile.state == state %}
+                                <option value="{{code}}" selected>{{state}}</option>
+                            {% else %}
+                                <option value="{{code}}">{{state}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+            <div class="codecityside">
+                <div class="codecity">
+                    <label>Area:</label>
+                    <select class="input" id="areaDropdown" name="area" required ></select>
+                </div>
+
+                <div class="codecity">
+                    <label>Postal Code:</label>
+                    <input type="text"  class="input" placeholder="Enter your postal code"
+                        name="postal_code" value="{{profile.postalCode}}" required>
+                </div>
+            </div>
+
+           <label for="address">Address:</label>
+           <input type="text" name="street" id="address" class="input" value="{{profile.street}}" required></input>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="customer-editProfile-btn-container">
+        <div class="customer-editProfile-SaveBtn">
+            <button onclick="customer_editProfile_ConfirmationPopup()" id="savechanges">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- Confirmation Popup -->
+    <div id="customer-editProfile-confirmation-popup" class="customer-editProfile-popup-container" style="display: none;">
+        <div class="customer-editProfile-popup-content">
+            <h2><i>Confirmation</i></h2>
+            <p>Are you sure you want to save your changes?</p>
+            <button class="btn cancel" onclick="customer_editProfile_close_ConfirmationPopup()">Cancel</button>
+            <button class="btn proceed" onclick="customer_editProfile_submitForm()">Proceed</button>
+        </div>
+    </div>
+
+    <!---------- Changes Saved Successfully Popup ------------>
+        <div id="customer-editProfile-sucessful-popup" class="customer-editProfile-popup-container" style="display: none;">
+            <div class="customer-editProfile-popup-content">
+                <img src="{% static 'images/Picture1.png'%}" alt="JAS Logo" class="popup-logo">
+                <h2>Congratulation!</h2>
+                <p class="customer-editProfile-popup-text">Your profile has been successfully updated! Thanks for keeping your info current.</p>
+                <a href="{% url 'customer:user_profile'%}">
+                  <button>Back</button>
+                </a>
+            </div>
+        </div>
+
+    {% if Invalid %}
+        <script>
+            var errorMessage = "{{ error_message|escapejs }}";
+            alert(errorMessage);
+        </script>
+    {% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/edituserprofile-customer.js'%}"></script>
+    <script src="{% static 'populateAreaDropdown.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var updateSuccess = "{{ update_success|default:'False' }}";
+            if (updateSuccess === "True") {
+                customer_editProfile_show_SucessfulPopup();
+
+            }
+        });
+        // render the state and area that in the database
+        populateAreaDropdown('stateDropdown', 'areaDropdown', '{{profile.area}}', 'state_text', '{{API_KEY}}')
+
+    </script>
+{% endblock %}

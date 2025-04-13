@@ -1,0 +1,172 @@
+{% extends 'customer/base_customer.html' %}
+{% load static %}
+
+{% comment %} {% block head_extra %}
+    <div id="embedded-navbar">
+        {% include 'customer/navbar-customer.html' %}
+    </div>
+{% endblock %} {% endcomment %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/homepage-customer.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+
+{% comment %} <header class="header-section">
+    <h1><span class="welcome">Welcome to</span> <br> <span class="title">Jabatan Alam Sekitar</span> <br> <span
+            class="short-title">JAS</span></h1>
+</header>
+
+<div class="container">
+    <div class="info-box">
+        <h2>Schedule E-Waste Pickup</h2>
+        <p>Book an e-waste pickup with us today! Just fill in the form with the type and
+            weight of e-waste and we will schedule a pickup time for you!</p>
+        <a href="{% url 'customer:schedule_pickup'%}">Schedule Now!</a>
+    </div>
+
+    <div class="info-box">
+        <h2>Redeem Rewards</h2>
+        <p>Collected enough points? Visit our rewards redemption page now to grab limited edition gifts or cashback
+            deals!</p>
+        <a href="{% url 'customer:redeem_rewards_page'%}">Redeem Now!</a>
+    </div>
+
+    <div class="info-box">
+        <h2>View Pickup Status</h2>
+        <p>Have you scheduled an e-waste pickup? View the status of the request and arrival time. Click the link
+            below to be directed to the page!</p>
+        <a href="{% url 'customer:pickup_status'%}">Check Now!</a>
+    </div>
+
+    <div class="info-box">
+        <h2>View Recent Activity</h2>
+        <p>Curious about your past pickup schedules with us? Click the link below to view your previous pickups and
+            earned points!</p>
+        <a href="{% url 'customer:device_recycled'%}">View Now!</a>
+    </div>
+</div> {% endcomment %}
+
+
+<div id="scroll-pos"></div>
+
+<div class="background" id="background">
+    <img src="{% static 'images/greenleaf.png'%}">
+</div>
+
+<main>
+    <article>
+        <h1 class="headline first-title">Welcome to</h1>
+        <h1 class="headline">Jabatan Alam Sekitar</h1>
+        <h1 class="headline short-title">JAS</h1>
+    </article>
+</main>
+
+<main>
+    <div class="container">
+        <div class="mini-container">
+            <br><br>
+            <article>
+                <h1>Schedule an e-waste pickup</h1>
+                <p>Do you own any old electronics? Don't leave them piling up in your house!
+                    Our handy e-waste pickup system makes it easy for you to dispose of them easily, right at your
+                    front door.
+                    Schedule an <b>e-waste pickup</b> with
+                    us right now and our team will handle the rest!</p>
+                <a href="{% url 'customer:schedule_pickup'%}" class="btnlink">Click here to schedule a pickup right now!</a>
+            </article>
+        </div>
+
+        <div class="mini-container">
+            <article>
+                <img src="{% static 'images/recycle.png'%}" alt="recycle" width="400" height="400">
+            </article>
+        </div>
+    </div>
+</main>
+
+<main>
+    <div class="container">
+        <div class="mini-container">
+            <article>
+                <img src="{% static 'images/redeem-points.png'%}" alt="redeem points" width="500" height="500">
+            </article>
+        </div>
+
+        <div class="mini-container">
+            <br>
+            <article>
+                <h1>Redeem rewards with points</h1>
+                <p>Your accumulated points from dropping off e-waste can be used here.
+                    Redeem a variety of rewards today while stocks last!
+                </p>
+                <p>What can you redeem?</p>
+                <p>1. Donate to charities around the world for a better Earth!</p>
+                <p>2. Redeem exclusive vouchers for shopping and others.</p>
+                <p>3. Redeem limited stock products worth up to RM2000!</p>
+                <a href="{% url 'customer:redeem_rewards_page'%}" class="btnlink">Click here to redeem your rewards now!</a>
+            </article>
+        </div>
+    </div>
+</main>
+
+<main>
+    <div class="container second">
+        <div class="mini-container">
+            <br><br>
+            <article>
+                <h1>View your pickup status</h1>
+                <p>Have you scheduled an e-waste pickup? View the status of your pickup here!
+                    All pickups will be displayed in this page for 24 hours after the pickup is completed.
+                </p>
+                <a href="{% url 'customer:pickup_status'%} " class="btnlink">Click here to view current and recent pickups</a>
+            </article>
+        </div>
+
+        <div class="mini-container last-container">
+            <br><br>
+            <article>
+                <h1>View your pickup history</h1>
+                <p>All your activities will be stored with us safely for future references. View all pickups or
+                    rewards redeemed in the past here.
+                </p>
+                <p>Note: The redemption code for rewards are in this page</p>
+                <a href="{% url 'customer:device_recycled'%}" class="btnlink">View your past activities and rewards reedemed here</a>
+            </article>
+        </div>
+    </div>
+</main>
+
+<div class="scroll-indicator" id="scrollIndicator">
+    <span>Scroll Down ⬇</span>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        (function () {
+            var img = document.getElementById('background'), opacity;
+            var min = 0.15;
+
+            function setBackgroundOpacity() {
+                opacity = 1 - window.scrollY / (screen.height + 100);
+                img.style.opacity = opacity > min ? opacity : min;
+            }
+
+            window.addEventListener('scroll', setBackgroundOpacity);
+        })();
+
+        window.addEventListener("scroll", function () {
+            const indicator = document.getElementById("scrollIndicator");
+            if (window.scrollY > 50) { // Hide after scrolling 50px
+                indicator.style.opacity = "0";
+            } else {
+                indicator.style.opacity = "1";
+            }
+        });
+    </script>
+{% endblock %}

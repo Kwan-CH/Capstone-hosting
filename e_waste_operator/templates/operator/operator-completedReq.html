@@ -1,0 +1,58 @@
+{% extends 'operator/base_operator.html' %}
+{% load static %}
+
+{% block title %} Completed Request {% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/operator-completedReq.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<body>
+
+    <h1 class="title">Completed Request</h1> </br></br>
+
+    <div class="completedTable">
+      <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Address</th>
+                <th>Waste type</th>
+            </tr>
+        </thead>
+        <tbody>
+              {% for completedRequest in completedRequests %}
+            <tr>
+                <td>{{ completedRequest.requestID__customer__name }}</td>
+                <td>{{ completedRequest.completed_date|date:"d/m/Y" }}</td>
+                <td>{{ completedRequest.completed_time|time:"h:i A" }}</td>
+                <td>{{ completedRequest.address }}</td>
+                <td>{{ completedRequest.requestID__category__itemType }}</td>
+            </tr>
+              {% endfor %}
+        </tbody>
+
+      </table>
+   </div>
+
+    <div class="pagination">
+        {% if not Empty %}
+            {% if completedRequests.has_previous %}
+                <a href="?page={{ completedRequests.previous_page_number }}" style="text-decoration:none;"> &larr; Previous</a>
+            {% endif %}
+
+            <span>Page {{ completedRequests.number }} of {{ completedRequests.paginator.num_pages }}</span>
+
+            {% if completedRequests.has_next %}
+                <a href="?page={{ completedRequests.next_page_number }}" style="text-decoration:none;">Next &rarr; </a>
+            {% endif %}
+        {% else %}
+            <p>No History Available</p>
+        {% endif %}
+    </div>
+</body>
+{% endblock %}

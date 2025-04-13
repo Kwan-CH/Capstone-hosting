@@ -1,0 +1,170 @@
+{% extends 'driver/base_driver.html' %}
+{% load static %}
+
+{% block title %} Activity History {% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/pickupDetails.css' %}">
+{% endblock %}
+
+{% block content %}
+<body>
+    <div class="main-content">
+        <h1 class="title">Pickup Details</h1>
+
+        <div class="activity-container">
+            {% for pickup in pickups %}
+            <div class="activity-card">
+                <table>
+                    <tr>
+                        <td><strong>Customer Details:</strong></td>
+                        <td><strong>Item Details:</strong></td>
+                    </tr>
+                    <tr>
+                        <td>📦 Name: {{ pickup.customer.name }}</td>
+                        <td>⏳ Category: {{ pickup.category.itemType }}</td>
+                        {% comment %} <td>🚛 Waste: {{ pickup.category }}</td> {% endcomment %}
+                    </tr>
+                    <tr>
+
+                        <td>
+                            <div class="location">
+                                <div class="location-icon">
+                                    📍
+                                </div>
+                                <div>
+                                    <a class="location-url" href="https://www.google.com/maps?q={{ pickup.address|urlencode }}" target="_blank">
+                                        {{ pickup.address }}
+                                </a>
+                                </div>
+                            </div>
+
+                        </td>
+                        <td>🔢 Quantity: {{ pickup.quantity }}</td>
+                    </tr>
+                    <tr>
+                        <td>📅 Date & Time: {{ pickup.date|date:"d/m/Y" }}, {{ pickup.time|time:"h:i A" }}</td>
+                        <td>📱 Item Weight:
+                            {% if pickup.weight == "less1" %} &lt;1 Kilogram
+                            {% elif pickup.weight == "less2" %} &lt;2 Kilograms
+                            {% elif pickup.weight == "less5" %} &lt;5 Kilograms
+                            {% elif pickup.weight == "more5" %} >5 Kilograms
+                            {% else %} {{ pickup.weight }} Kilograms
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>📞 Contact: {{ pickup.customer.phoneNumber }}</td>
+                    </tr>
+                </table>
+                <div class="btn-container">
+                    <button type="submit" class="btn submit" data-picked-id="{{ pickup.requestID }}">Picked Up</button>
+                    {% comment %} <div>
+                    <a href="https://www.google.com/maps?q={{ pickup.address|urlencode }}" target="_blank">
+                        <div>
+                            Click here
+                            <div class="loader"></div>
+                        <div>
+                    </a>
+                    </div> {% endcomment %}
+                </div>
+
+            </div>
+            {% empty %}
+                <p>No pickup requests found.</p>
+            {% endfor %}
+        </div> <!-- Closing the activity-container div -->
+    </div>
+
+    <!-- Confirmation Popup -->
+    <div id="confirmation-popup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <h2><i>Confirmation</i></h2>
+            <p>Please verify that the order has been picked up.</p>
+            <button class="btn cancel" onclick="closeConfirmationPopup()">Cancel</button>
+            <button class="btn proceed" onclick="showTrackingPopup()">Proceed</button>
+        </div>
+    </div>
+
+    <!-- Pickup Successful Popup -->
+    <div id="success-popup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <img src="{% static 'images/companylogo.jpg' %}" alt="JAS Logo" class="popup-logo">
+            <h2>You have successfully marked this order as picked up</h2>
+            <button class="btn return" onclick="closeTrackingPopup()">Return</button>
+        </div>
+    </div>
+</body>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        let selectedPickupID = null;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".submit").forEach(function(button) {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    selectedPickupID = this.dataset.pickedId;
+                    showConfirmationPopup(); // Show confirmation popup first
+                });
+            });
+        });
+
+        // Show Confirmation Popup
+        function showConfirmationPopup(pickupID) {
+            document.getElementById("confirmation-popup").style.display = "flex";
+        }
+
+        // Close Confirmation Popup
+        function closeConfirmationPopup() {
+            document.getElementById("confirmation-popup").style.display = "none";
+        }
+
+        function getCSRFToken() {
+            // Try to get from meta tag first
+            const metaTag = document.querySelector('meta[name="csrf-token"]');
+            if (metaTag) {
+                return metaTag.content;
+            }
+            // Fallback to getting from cookies
+            const cookieValue = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('csrftoken='))
+                ?.split('=')[1];
+            return cookieValue || '';
+        }
+
+        function showTrackingPopup() {
+            closeConfirmationPopup();
+
+            fetch("{% url 'driver:update_pickup_status' 'PLACEHOLDER' %}".replace('PLACEHOLDER', selectedPickupID), {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken(),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})  // Empty body for POST request
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById("success-popup").style.display = "flex";
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(`Failed to update pickup status: ${error.message}`);
+            });
+        }
+
+        // Close Popup
+        function closeTrackingPopup() {
+            document.getElementById("success-popup").style.display = "none";
+            location.reload();
+        }
+    </script>
+{% endblock %}

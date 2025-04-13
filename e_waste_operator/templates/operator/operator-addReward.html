@@ -1,0 +1,129 @@
+{% extends 'operator/base_operator.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/operator-addReward.css'%}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Add New Rewards{% endblock %}
+
+{% block content %}
+    <div class="addNew-container">
+        <div class="addNew-title-container">
+            <h1 class="title">Add New Reward</h1>
+            <p class="text">Fill out the item's detail below to add an new item</p>
+            <div class="text-box"></div>
+        </div>
+
+
+        <form method="POST" action="{% url 'operator:add_reward' %}" id="add-reward-form">
+            {% csrf_token %}
+
+            <label for="item-name">Item's name:</label>
+            <input id="item-name" name="name" type="text" placeholder="Example: Iphone XX" required>
+
+            <label for="points">Exchange points:</label>
+            <input id="points" name="pointsRequired" type="number" placeholder="Example: 100" required>
+
+            <label for="quantity">Quantity:</label>
+            <input id="quantity" name="quantity" type="number" placeholder="Example: 10" required>
+        </form>
+    </div>
+
+    <!-- Buttons -->
+    <div class="addNew-btn-container">
+        <div class="addNew-SaveBtn">
+            {% comment %} <button onclick="addNew_ConfirmationPopup()" class="btn-save">Save</button> {% endcomment %}
+            <button onclick="validateAndConfirm()" class="btn-save">Save</button>
+        </div>
+
+        <div class="addNew-CancelBtn">
+            <a href="{% url 'operator:reward_system'%}">
+                <button class="btn-cancel">Cancel</button>
+            </a>
+        </div>
+    </div>
+
+<!-- Confirmation Popup -->
+<div id="addNew-confirmation-popup" class="addNew-popup-container" style="display: none;">
+    <div class="addNew-popup-content">
+        <h2><i>Confirmation</i></h2>
+        <p>Please verify all the information is correct before proceeding.</p>
+        <button class="btn cancel" onclick="addNew_close_ConfirmationPopup()">Cancel</button>
+        {% comment %} <button class="btn proceed" onclick="addNew_show_SucessfulPopup()">Proceed</button> {% endcomment %}
+        <button class="btn proceed" onclick="submitForm()">Proceed</button>
+    </div>
+</div>
+
+<!---------- Account Created Successfully Popup ------------>
+    <div id="addNew-sucessful-popup" class="addNew-popup-container" style="display: none;">
+        <div class="addNew-popup-content">
+            <img src="{% static 'images/Picture1.png'%}" alt="JAS Logo" class="popup-logo">
+            <h2>Congratulation!</h2>
+            <p class="addNew-popup-text">A new item has been added successfully!</p>
+            <a href="{% url 'operator:reward_system'%}">
+              <button>Back</button>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/operator-addReward.js' %}"></script>
+
+    <script>
+        function validateAndConfirm() {
+            // Get input values and trim whitespace
+            var name = document.getElementById('item-name').value.trim();
+            var points = document.getElementById('points').value.trim();
+            var quantity = document.getElementById('quantity').value.trim();
+
+            // Ensure points and quantity are valid positive integers
+            if (!/^\d+$/.test(points) || !/^\d+$/.test(quantity)) {
+                alert('Points and Quantity must be valid numbers.');
+                return;
+            }
+
+            if (name === "" || points === "" || quantity === "") {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // If all validations pass, call the confirmation popup function
+            addNew_ConfirmationPopup();
+        }
+
+        {% comment %} function submitForm() {
+            document.getElementById('add-reward-form').submit();
+            addNew_show_SucessfulPopup()
+        } {% endcomment %}
+
+        function submitForm() {
+            var form = document.getElementById('add-reward-form');
+            var formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json()) // Expect JSON response from Django
+            .then(data => {
+                if (data.status === 'success') {
+                    addNew_show_SucessfulPopup();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+    </script>
+
+{% endblock %}

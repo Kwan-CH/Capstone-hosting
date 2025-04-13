@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sign in{% endblock %}</title>
+    {% block extra_css %}
+        <link rel="stylesheet" href="{% static 'e_waste/css/login.css' %}">
+    {% endblock %}
+
+</head>
+<body>
+
+{% block content %}
+    <div class="container">
+        <a href="{% url 'landing' %}"><img src="{% static 'images/companylogonobg.png' %}" id="logo" width="400" height="150" alt="company logo"></a>
+        <div class="login">
+            <form class="form" action= {% url 'login' %} method="POST"> {% csrf_token %}
+                <p class="form-title">Sign in to your account</p>
+                <br>
+
+                <div class="inputGroup">
+                    <input type="email" name="email_input" required autocomplete="off">
+                    <label for="name">Email</label>
+                </div>
+
+                <br><br>
+                <div class="inputGroup">
+                    <input type="password" name="password" required autocomplete="off">
+                    <label for="name">Password</label>
+                </div>
+                <br>
+
+                <button class="submit" type="submit">Sign in</button>
+                <br>
+
+            <p class="link">
+                <a id="forgot-password" href="{% url 'resetPassword'%}">Forgot password?</a>
+            </p>
+
+            <p class="link">
+                New user?
+                <a id="signup" href="{% url 'signup' %}">Sign up here!</a>
+            </p>
+            </form>
+        </div>
+    </div>
+
+    <div id="embedded-footer">
+        {% include 'footer.html' %}
+    </div>
+
+    {% if Invalid %}
+    <script>
+        alert('Email or Pasword Invalid!');
+    </script>
+    {% endif %}
+    </body>
+</html>
+
+{% endblock %}

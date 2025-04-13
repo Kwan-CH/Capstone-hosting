@@ -1,0 +1,116 @@
+{% extends "base_landing.html" %}
+{% load static %}
+
+{% block title %} Landing Page {% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="title">
+        <h1>Welcome to Jabatan Alam Sekitar (JAS) E-Waste Management System</h1>
+        <h1>On Demand E-Waste Disposal System</h1>
+        <br>
+    </div>
+
+    <div class="slideshow-container">
+        <div class="slide fade">
+            <img src="{% static 'images/slide1.png' %}" alt="Slide 1">
+        </div>
+        <div class="slide fade">
+            <img src="{% static 'images/slide2.png' %}" alt="Slide 2">
+        </div>
+        <div class="slide fade">
+            <img src="{% static 'images/slide3.png' %}" alt="Slide 3">
+        </div>
+        <div class="slide fade">
+            <img src="{% static 'images/slide4.png' %}" alt="Slide 4">
+        </div>
+
+        <!-- Next and Previous buttons -->
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+    </div>
+
+    <br>
+
+    <div class="container">
+        <div class="left-column">
+            <div class="info3">
+                <h2>How to Dispose of E-Waste, and Why?</h2>
+                <br>
+                <p>Component in E-waste contain toxic and hazardous material such as mercury, lead, cadmium, arsenic,
+                    bromine, beryllium will permeate into the earth and
+                    subsequently water sources as well as threaten the aquatic and human life if E-waste is not disposed
+                    in environmentally sound manner.
+                </p>
+                <br>
+                <p>Disposal Procedure</p>
+                <br>
+                <p>1. Identify and separate e-waste from regular trash</p>
+                <br>
+                <p>2. Schedule a collection from your house through our system</p>
+                <br>
+                <p>3. Once the pickup is scheduled, a driver will be sent to collect the e-waste</p>
+                <br>
+                <p><a href="https://ewaste.doe.gov.my/index.php/what-is-e-waste/" target="_blank">Find Out How to
+                        Dispose of E-Waste</a></p>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="info1">
+                <h2>What is E-Waste?</h2>
+                <br>
+                <p>E-waste refers to discarded electronic devices like phones, laptops, and appliances.
+                    They can also refer to broken, non-working or obsolete TVs, PCs, air conditioners, washing machines
+                    and refrigerators.</p>
+                <br>
+                <p><a href="https://www.who.int/news-room/fact-sheets/detail/electronic-waste-%28e-waste%29"
+                        target="_blank">Click Here to Get More Info!</a></p>
+            </div>
+            <div class="info2">
+                <h2>Why is E-Waste Management Important?</h2>
+                <p>Proper e-waste management helps prevent environmental pollution and health hazards. It also allows
+                    for the recovery of valuable materials.</p>
+                <p>Include images/icons of the benefits of proper e-waste management.</p>
+                <br>
+                <p><a href="https://www.greenatlanta.com/why-e-waste-management-is-important/" target="_blank">Learn
+                        More About E-Waste Management</a></p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        let slideIndex = 1; // Start at first slide
+        showSlides(slideIndex);
+
+        // Function to change slides manually
+        function changeSlide(n) {
+            showSlides(slideIndex += n);
+        }
+
+        // Function to show slides
+        function showSlides(n) {
+            let slides = document.querySelectorAll(".slide");
+
+            if (n > slides.length) { slideIndex = 1; } // Loop back to first slide
+            if (n < 1) { slideIndex = slides.length; } // Loop to last slide
+
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+
+            slides[slideIndex - 1].style.display = "block";
+        }
+
+        // Auto-slide every 3 seconds
+        setInterval(() => {
+            changeSlide(1);
+        }, 10000);
+
+    </script>
+{% endblock %}

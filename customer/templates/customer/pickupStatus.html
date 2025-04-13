@@ -1,0 +1,95 @@
+{% extends "customer/base_customer.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/pickupStatus.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300;400;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Pickup Status{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="title-container">
+            <h1 class="status-title">Your Pickup Status</h1>
+            <p class="progress-text">View the progress of your scheduled e-waste pickups</p>
+            <div class="progress-box"></div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr class="pickup-list-view">
+                    <th colspan="5">Pickup List View</th>
+                </tr>
+
+                <tr>
+                    <th>Tracking Code</th>
+                    <th>Scheduled</th>
+                    <th>Vehicle No</th>
+                    <th>Driver Information</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for delivery in deliveries %}
+                <tr>
+                    <td>{{ delivery.trackingnumber }}</td>
+                    <td>{{ delivery.date|date:"d/m/Y" }} {{ delivery.time|time:"h:i A" }}</td>
+                    {% comment %} <td>{{ delivery.driver.plateNumber }}</td> {% endcomment %}
+                    <td>{% if delivery.driver %}{{ delivery.driver.plateNumber }}{% else %}-{% endif %}</td>
+                    <td>{% if delivery.driver %}{{ delivery.driver.name }}{% else %}-{% endif %} </td>
+                    <td>{{ delivery.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div>
+            {% if not Empty %}
+                {% if deliveries.has_previous %}
+                    <a href="?page={{ deliveries.previous_page_number }}" style="text-decoration:none;"> &larr; Previous</a>
+                {% endif %}
+
+                <span>Page {{ deliveries.number }} of {{ deliveries.paginator.num_pages }}</span>
+
+                {% if deliveries.has_next %}
+                    <a href="?page={{ deliveries.next_page_number }}" style="text-decoration:none;">Next &rarr; </a>
+                {% endif %}
+            {% else %}
+                <p>No History Available</p>
+            {% endif %}
+        </div>
+
+        <p class="note">
+            {% comment %} <b>Note:</b> Completed pickups will only remain on this page for 24 hours. After this, they will be moved to the <a href ="{% url 'customer:activity' %} style="font-weight: bold;"> Activity History</a> page. {% endcomment %}
+            <b>Note:</b> Completed pickups will only remain on this page for 24 hours. After this, they will be moved to the <a href ="{% url 'customer:history_all' %}" style="font-weight: bold;"> Activity History</a> page.
+        </p>
+    </div>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusCells = document.querySelectorAll('.table td:last-child');
+        statusCells.forEach(cell => {
+            switch (cell.textContent.trim()) {
+                case 'Pending':
+                    cell.classList.add('status-pending');
+                    break;
+                case 'Approved':
+                    cell.classList.add('status-assigned');
+                    break;
+                case 'Picked Up':
+                    cell.classList.add('status-picked-up');
+                    break;
+                case 'Completed':
+                    cell.classList.add('status-completed');
+                    break;
+                case 'Rejected':
+                    cell.classList.add('status-rejected');
+                    break;
+            }
+        });
+    });
+</script>
+{% endblock %}

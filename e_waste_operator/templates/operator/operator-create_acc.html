@@ -1,0 +1,100 @@
+{% extends 'operator/base_operator.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/operator-createacc.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Create Operator Account{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="title-container">
+        <h1 class="title">Create Driver Account</h1>
+        <p class="text">Fill out the Driver Details below to create an account for driver</p>
+        <div class="text-box"></div>
+    </div>
+
+    <form id="driverForm" method="post" action="{% url 'operator:save_account' %}"> {% csrf_token %}
+        <label for="full_name">Full Name:</label>
+        <input name="full_name" id="full_name" type="text" placeholder="Example: Jayden Lai Sea Ming" required>
+
+        <label for="email">Email:</label>
+        <input name="email" id="email" type="text" placeholder="Example: abc@gmail.com" required>
+
+        <label for="password">Password:</label>
+        <input name="password" id="password" type="text" placeholder="Example: Abc12345" required>
+
+        <label for="phone_number">Phone Number:</label>
+        <input name="phone_number" id="phone_number" type="tel" placeholder="Example: 0123456789" required>
+
+
+        <label>State covered:</label>
+        <input type="hidden" name="state_covered" id="state_text">
+        <select id="stateDropdown" onchange="populateAreaDropdown('stateDropdown', 'areaDropdown', null, 'state_text', '{{API_KEY}}')" required>
+            <option disabled selected>Select state covered</option>
+            {% for state, code in states.items %}
+                <option value="{{code}}">{{state}}</option>
+            {% endfor %}
+        </select>
+
+        <label>Area covered:</label>
+        <select name="area_covered" id="areaDropdown" required>
+            <option disabled selected>Select area covered</option>
+        </select>
+
+        <label for="car_plate">Car Plate:</label>
+        <input name="car_plate" type="text" id="car_plate" placeholder="Example: ABC0123" required>
+
+        <!-- Buttons -->
+        <div class="btn-container">
+            <button type="button" class="btn submit" onclick="verifyForm()">Submit</button>
+            {% comment %} <button type="submit" id="hidden-submit" onclick="showSuccessfulPopup()" style="display:none"></button> {% endcomment %}
+        </div>
+    </form>
+</div>
+
+<!-- Confirmation Popup -->
+<div id="confirmation-popup" class="popup-container" style="display: none;">
+    <div class="popup-content">
+        <h2><i>Confirmation</i></h2>
+        <p>Please verify all the information is correct before proceeding.</p>
+        <button class="btn cancel" onclick="closeConfirmationPopup()">Cancel</button>
+        <button class="btn proceed" onclick="proceedAction()">Proceed</button>
+    </div>
+</div>
+
+
+<!---------- Account Created Successfully Popup ------------>
+<div id="successful-popup" class="popup-container" style="display: none;">
+    <div class="popup-content">
+        <img src="{% static 'images/create-successful.png' %}" alt="JAS Logo" class="popup-logo">
+        <h2>Congratulation!</h2>
+        <p class="popup-text">A driver account has been successfully created!</p>
+        <button class="btn return" onclick="closeSuccessfulPopup()">Back</button>
+    </div>
+</div>
+
+{% block extra_js %}
+
+    {% if Success %}
+        <script>showSuccessfulPopup()</script>
+    {% endif %}
+
+    {% if messages %}
+        <script>
+            closeConfirmationPopup()
+            {% for message in messages %}
+            alert("{{message}}");
+            {% endfor %}
+        </script>
+    {% endif %}
+
+    {% endblock %}
+
+    <script src="{% static 'js/createacc-pop.js' %}"></script>
+    <script src="{% static 'populateAreaDropdown.js' %}"></script>
+{% endblock %}

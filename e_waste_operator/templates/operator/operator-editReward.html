@@ -1,0 +1,148 @@
+{% extends 'operator/base_operator.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/operator-editReward.css' %}">
+{% endblock %}
+
+{% block title %} Edit Reward {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="title-container">
+            <h1 class="title">Edit Reward</h1>
+        </div>
+
+        <form method="post" id="edit-reward-form" action="{% url 'operator:edit_reward' voucher.voucherID %}">
+          {% csrf_token %}
+          <!-- Item Name Field -->
+          <div class="form-group">
+              <label for="item-name">Item's name:</label>
+              <div class="input-container">
+                  <input id="item-name" name="name" type="text" value="{{ voucher.name }}" disabled required>
+                  <button type="button" class="edit-btn" onclick="enableEdit('item-name')">✎</button>
+              </div>
+          </div>
+
+          <!-- Exchange Points Field -->
+          <div class="form-group">
+              <label for="points">Exchange points:</label>
+              <div class="input-container">
+                  <input id="points" name="pointsRequired" type="number" value="{{ voucher.pointsRequired }}" disabled required>
+                  <button type="button" class="edit-btn" onclick="enableEdit('points')">✎</button>
+
+              </div>
+          </div>
+
+          <!-- Quantity Field -->
+          <div class="form-group">
+              <label for="quantity">Quantity:</label>
+              <div class="input-container">
+                  <input id="quantity" name="quantity" type="number" value="{{ voucher.quantity }}" disabled required>
+                  <button type="button" class="edit-btn" onclick="enableEdit('quantity')">✎</button>
+
+              </div>
+          </div>
+       </form>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-container">
+        <div class="button1">
+            <button type="submit" class="btn-save" onclick="submitForm()">Save</button>
+        </div>
+
+        <div class="button2">
+            <a href="{% url 'operator:reward_system'%}">
+                <button class="btn-cancel">Cancel</button>
+            </a>
+        </div>
+    </div>
+
+    <!-- Confirmation Popup -->
+    <div id="confirmation-popup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <h2><i>Confirmation</i></h2>
+            <p>Please verify all the information is correct before proceeding.</p>
+            <button class="btn cancel" onclick="closeConfirmationPopup()">Cancel</button>
+            <button class="btn proceed" onclick="showSucessfulPopup()">Proceed</button>
+        </div>
+    </div>
+
+    <!---------- Account Created Successfully Popup ------------>
+    <div id="sucessful-popup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <img src="{% static 'images/Picture1.png' %}" alt="JAS Logo" class="popup-logo">
+            <h2>Congratulation!</h2>
+            <p class="popup-text">The modification you made have been saved.</p>
+            <a href="{% url 'operator:reward_system' %}">
+                <button>Back</button>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/createacc-pop.js' %}"></script>
+    <script src="{% static 'js/editReward.js' %}"></script>
+
+    <script>
+        function enableEdit(fieldId) {
+            document.getElementById(fieldId).disabled = false;
+        }
+
+        function showSuccessfulPopup() {
+            document.getElementById("sucessful-popup").style.display = "flex";
+        }
+
+        function submitForm() {
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Enable all form fields before submission
+            document.getElementById('item-name').disabled = false;
+            document.getElementById('points').disabled = false;
+            document.getElementById('quantity').disabled = false;
+
+            // Validate fields
+            var name = document.getElementById('item-name').value.trim();
+            var points = document.getElementById('points').value.trim();
+            var quantity = document.getElementById('quantity').value.trim();
+
+            if (!/^\d+$/.test(points) || !/^\d+$/.test(quantity)) {
+                alert('Points and Quantity must be valid numbers.');
+                return;
+            }
+
+            if (name === "" || points === "" || quantity === "") {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Submit the form via AJAX
+            var form = document.getElementById('edit-reward-form');
+            var formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showSuccessfulPopup();
+                } else {
+                    alert('An error occurred: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+{% endblock %}

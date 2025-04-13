@@ -1,0 +1,178 @@
+{% extends 'customer/base_customer.html' %}
+
+{% load static %}
+
+{% block title %} Activity History {% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/activityHis-All.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300;400;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/activityHis-All.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <h1 class="title">Activity History</h1>
+
+    <!-- Navigation Buttons -->
+    <div class="btn-container">
+        {% comment %} <button class="tab-btn" onclick="switchPage('activityHis-Device.html')">Device Recycle</button>
+        <button class="tab-btn" onclick="switchPage('activityHis-Point.html')">Points Spend</button> {% endcomment %}
+        <a href="{% url 'customer:history_all' %}">
+            <button class="tab-btn active">All</button>
+        </a>
+        <a href="{% url 'customer:device_recycled' %}">
+            <button class="tab-btn">Device Recycle</button>
+        </a>
+        <a href="{% url 'customer:voucher_redeemed' %}">
+            <button class="tab-btn">Points Spend</button>
+        </a>
+    </div>
+
+
+    <div class="activity-container">
+        {% if not Empty %}
+            {% for item in activities %}
+            <!-- Device Recycling History -->
+            {% if item.trackingnumber %}
+                <div class="activity-card">
+                    <table>
+                        <tr>
+                            <td>📦 <strong>Pickup {{ item.trackingnumber }}</strong></td>
+                            {% comment %} <td>📍 {{ item.address }}</td> {% endcomment %}
+                            <td class="address-row">
+                                <span class="address-icon">📍</span>
+                                <span class="address-word">{{ item.address }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>🗑️ Waste: {{ item.category__itemType }}</td>
+                            <td>⏳ Scheduled: {{ item.date|date:"d/m/Y" }}</td>
+                        </tr>
+                        <tr>
+                            <td>🔢 Quantity: {{ item.quantity }} items</td>
+                            {% comment %} <td>🚛 <span class="status completed">Status: {{ item.status }}</span></td> {% endcomment %}
+                            {% if item.status == 'Completed' %}
+                                <td>🚛 <span class="status completed">Status: Completed</span></td>
+                            {% elif item.status == 'Rejected' %}
+                                <td>🚛 <span class="status rejected">Status: Rejected</span></td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                    {% comment %} <div class="points-earned">Points Earned: +{{ item.total }} points</div> {% endcomment %}
+                    {% if item.status == 'Completed' %}
+                        <div class="points-earned">Points Earned: +{{ item.total }} points</div>
+                    {% elif item.status == 'Rejected' %}
+                        <div class="points-rejected">Reason: {{ item.rejectedReason__reason }}</div>
+                    {% endif %}
+                </div>
+
+            <!-- Voucher Redemption History -->
+            {% elif item.voucher__voucherID %}
+               <div class="activity-card">
+                   <table>
+                       <tr>
+                           <td><strong>Item Code: {{ item.voucher__voucherID }}</strong></td>
+                           <td>📅 Date: {{ item.date|date:"d/m/Y" }}</td>
+                       </tr>
+                       <tr>
+                           <td>📱 Item Name: {{ item.voucher__name }}</td>
+                           <td>⏰ Time: {{ item.time|time:"h:i A" }}</td>
+                       </tr>
+                   </table>
+                   <div class="points-deducted">Points Deducted: -{{ item.voucher__pointsRequired }} points</div>
+               </div>
+           {% endif %}
+       {% endfor %}
+
+         <!-- Pagination -->
+         <div class="pagination">
+            {% if activities.has_previous %}
+                <a href="?page={{ activities.previous_page_number }}" style="text-decoration:none;"> &larr; Previous</a>
+            {% endif %}
+
+            <span>Page {{ activities.number }} of {{ activities.paginator.num_pages }}</span>
+
+            {% if activities.has_next %}
+                <a href="?page={{ activities.next_page_number }}" style="text-decoration:none;">Next &rarr; </a>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>No activity history available.</p>
+    {% endif %}
+        <!-- Activity Box 2 (Points Deducted) -->
+        {% comment %} <div class="activity-card">
+            <table>
+                <tr>
+                    <td><strong>Item Code: CO001</strong></td>
+                    <td>📅 Date: 2 Feb 2025</td>
+                </tr>
+                <tr>
+                    <td>📱 Item Name: iPhone XR Plus</td>
+                    <td>⏰ Time: 1:45 p.m.</td>
+                </tr>
+            </table>
+            <div class="points-deducted">Points Deducted: -1092 points</div>
+        </div>
+
+        <!-- Activity Box 3 -->
+        <div class="activity-card">
+            <table>
+                <tr>
+                    <td>📦 <strong>Pickup #JAS2025-002</strong></td>
+                    <td>📍 123 Red Street</td>
+                </tr>
+                <tr>
+                    <td>🗑️ Waste: Mouse</td>
+                    <td>⏳ Scheduled: 1 Feb 2025</td>
+                </tr>
+                <tr>
+                    <td>🔢 Quantity: 1 item</td>
+                    <td>🚛 <span class="status completed">Status: Completed</span></td>
+                </tr>
+            </table>
+            <div class="points-earned">Points Earned: +109 points</div>
+        </div>
+
+        <!-- Activity Box 4 (Rejected) -->
+        <div class="activity-card">
+            <table>
+                <tr>
+                    <td>📦 <strong>Pickup #JAS2025-003</strong></td>
+                    <td>📍 123 Red Street</td>
+                </tr>
+                <tr>
+                    <td>🗑️ Waste: Mouse</td>
+                    <td>⏳ Scheduled: 1 Feb 2025</td>
+                </tr>
+                <tr>
+                    <td>🔢 Quantity: 1 item</td>
+                    <td>🚛 <span class="status rejected">Status: Rejected</span></td>
+                </tr>
+            </table>
+            <div class="points-rejected">Rejected: Address Invalid</div>
+        </div>
+
+        <!-- Activity Box 5 -->
+        <div class="activity-card">
+            <table>
+                <tr>
+                    <td>📦 <strong>Pickup #JAS2025-001</strong></td>
+                    <td>📍 123 Red Street</td>
+                </tr>
+                <tr>
+                    <td>🗑️ Waste: Phone</td>
+                    <td>⏳ Scheduled: 1 Jan 2025</td>
+                </tr>
+                <tr>
+                    <td>🔢 Quantity: 3 items</td>
+                    <td>🚛 <span class="status completed">Status: Completed</span></td>
+                </tr>
+            </table>
+            <div class="points-earned">Points Earned: +1029 points</div>
+        </div> {% endcomment %}
+    </div>
+{% endblock %}

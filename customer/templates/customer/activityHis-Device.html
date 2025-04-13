@@ -1,0 +1,83 @@
+{% extends 'customer/base_customer.html' %}
+{% load static %}
+
+{% block title %}Device Recycle - JAS E-Waste{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/activityHis-Device.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300;400;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block extra_js %}
+    <script defer src="{% static 'js/activityHis-Device.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+<body>
+
+    <h1 class="title">Activity History</h1>
+
+    <!-- Navigation Buttons -->
+    <div class="btn-container">
+        <a href="{% url 'customer:history_all' %}">
+            <button class="tab-btn">All</button>
+        </a>
+        <a href="{% url 'customer:device_recycled' %}">
+            <button class="tab-btn active">Device Recycle</button>
+        </a>
+        <a href="{% url 'customer:voucher_redeemed' %}">
+            <button class="tab-btn">Points Spend</button>
+        </a>
+    </div>
+
+    {% for request in historyPages %}
+        <div class="activity-container">
+            <div class="activity-box">
+                <table>
+                    <tr>
+                        <td>📦 <strong>Pickup {{ request.trackingnumber }}</strong></td>
+                        <td>📍 {{ request.address}}</td>
+                    </tr>
+                    <tr>
+                        <td>🗑️ Waste: {{ request.category__itemType }}</td>
+                        <td>⏳ Scheduled: {{ request.date|date:"d/m/Y" }}</td>
+                    </tr>
+                    <tr>
+                        <td>🔢 Quantity: {{ request.quantity }} items</td>
+                        {% comment %} <td>🚛 <span class="status completed">Status: {{ request.status }}</span></td> {% endcomment %}
+                        {% if request.status == 'Completed' %}
+                            <td>🚛 <span class="status completed">Status: Completed</span></td>
+                        {% else %}
+                            <td>🚛 <span class="status rejected">Status: Rejected</span></td>
+                        {% endif %}
+                    </tr>
+                </table>
+            {% comment %} <div class="points-earned">Points Earned: +{{ request.total }} points</div> {% endcomment %}
+            {% if request.status == 'Completed' %}
+                <div class="points-earned">Points Earned: +{{ request.total }} points</div>
+            {% else %}
+                <div class="reason">Reason: {{ request.rejectedReason__reason }}</div>
+            {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+    <div>
+        {% if not Empty %}
+            {% if historyPages.has_previous %}
+                <a href="?page={{ historyPages.previous_page_number }}" style="text-decoration:none;"> &larr; Previous</a>
+            {% endif %}
+
+            <span>Page {{ historyPages.number }} of {{ historyPages.paginator.num_pages }}</span>
+
+            {% if historyPages.has_next %}
+                <a href="?page={{ historyPages.next_page_number }}" style="text-decoration:none;">Next &rarr; </a>
+            {% endif %}
+        {% else %}
+            <p>No History Available</p>
+        {% endif %}
+    </div>
+
+</body>
+{% endblock %}

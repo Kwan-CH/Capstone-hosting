@@ -1,0 +1,97 @@
+{% extends 'customer/base_customer.html' %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block extra_css %}
+        <link rel="stylesheet" href="{% static 'css/wasteCategory.css' %}">
+    {% endblock %}
+    <title>E-Waste Category</title>
+<!--    <div id="embedded-header"></div>-->
+<!--    <div id="embedded-navbar"></div>-->
+</head>
+
+{% block content %}
+<body>
+    <div class="main-content">
+        <h1>E-Waste Classification</h1>
+        <div class="small-box">
+        <p>View Our Categories of E-Waste Below<p>
+        </div>
+        <div class="e-waste-classification">
+            <table>
+                    <tr>
+                        <th id="classification-table" colspan="3">E-Waste Classification</th>
+                    </tr>
+                    <tr>
+                        <th>Category</th>
+                        <th>E-Waste Involved</th>
+                        <th>Points</th>
+                    </tr>
+                    <tr>
+                        <td>Large Household Appliances</td>
+                        <td>Refrigerators, Freezers, Washing Machines, Electric Stoves, Dishwashers, Microwaves, Air Conditioners</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <td>Small Household Appliances</td>
+                        <td>Electric Vacuum Cleaners, Toasters, Irons, Coffee Makers, Digital Clocks, Hair Dryers, </td>
+                        <td>150</td>
+                    </tr>
+                    <tr>
+                        <td>Large Telecommunication Equipments</td>
+                        <td>Monitors, Television, Printers, Scanners, Keyboard, Mice, Desktops, Laptops, PCs</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>Small Telecommunication Equipments</td>
+                        <td>Smartphones, Handphones, Landline Phones, Tablets, Modems, Routers, Smartwatches, Earphones, Earbuds</td>
+                        <td>50</td>
+                    </tr>
+                    <tr>
+                        <td>Electronic Toys</td>
+                        <td>RC Cars, Robotic Kits, Electronic Dolls, Digital Learning Pads, Playstations, Nintendo Switches, Electronic Board Games, Electronic Keyboards and Drums</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>Batteries</td>
+                        <td>AA, AAA or any type of batteries</td>
+                        <td>1</td>
+                    </tr>
+            </table>
+        </div>
+    </div>
+
+    <a href="{% url 'customer:schedule_pickup' %}" id="backButton">Back</a>
+
+<!--    <div id="embedded-footer"></div>-->
+
+<!--    <script>-->
+<!--        fetch('header-customer.html')-->
+<!--          .then(response => response.text())-->
+<!--          .then(html => {-->
+<!--            document.getElementById('embedded-header').innerHTML = html;-->
+<!--        });-->
+<!--    </script>-->
+
+<!--    <script>-->
+<!--        fetch('navbar-customer.html')-->
+<!--        .then(response => response.text())-->
+<!--        .then(html => {-->
+<!--            document.getElementById('embedded-navbar').innerHTML = html;-->
+<!--        });-->
+<!--    </script>-->
+
+<!--    <script>-->
+<!--        fetch('footer.html')-->
+<!--        .then(response => response.text())-->
+<!--        .then(html => {-->
+<!--            document.getElementById('embedded-footer').innerHTML = html;-->
+<!--        });-->
+<!--    </script>-->
+</body>
+{% endblock %}
+
+</html>

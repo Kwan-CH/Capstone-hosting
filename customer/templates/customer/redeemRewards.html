@@ -1,0 +1,71 @@
+{% extends 'customer/base_customer.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/redeemRewards.css' %}">
+{% endblock %}
+
+{% block title %} E-Waste Category {% endblock %}
+
+{% block content %}
+    <h1>Reward Points</h1>
+    <div class="small-box">
+        <p>Redeem your gifts using your points below
+        <p>
+    </div>
+    <div class="points-box">
+        <p>Total Points: {{profile.points}}</p>
+    </div>
+
+    <div class="container">
+        {% for voucher in vouchers %}
+        <div class="reward-box" data-rewardID="{{voucher.voucherID}}" data-points="{{voucher.pointsRequired}}">
+            <p>{{voucher.name}}</p>
+            <p class="points">{{voucher.pointsRequired}} points</p>
+        </div>
+        {% endfor %}
+
+    </div>
+    <button type="submit" class="redeem" disabled>Redeem</button>
+
+    <div>
+        {% if not Empty %}
+            {% if vouchers.has_previous %}
+                <a href="?page={{ vouchers.previous_page_number }}" style="text-decoration:none;"> &larr; Previous</a>
+            {% endif %}
+
+            <span>Page {{ vouchers.number }} of {{ vouchers.paginator.num_pages }}</span>
+
+            {% if vouchers.has_next %}
+                <a href="?page={{ vouchers.next_page_number }}" style="text-decoration:none;">Next &rarr; </a>
+            {% endif %}
+        {% else %}
+            <p>No Vouchers Available</p>
+        {% endif %}
+    </div>
+
+    <!-- Confirmation Popup -->
+    <div id="confirmation-popup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <h2><i>Confirmation</i></h2>
+            <p>Please verify that you have chosen the correct reward before proceeding.</p>
+            <button class="btn cancel" onclick="closeConfirmationPopup()">Cancel</button>
+            <button class="btn proceed" onclick="confirmRedemption()">Proceed</button>
+        </div>
+    </div>
+
+        <!---------- Redemption Successful Popup ------------>
+    <div id="successful-popup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <img src="{% static 'images/QRCode.png' %}" alt="QR Code" class="popup-logo" style="width:250px; height:250px;">
+            <h2>Your Reward Has Been Successfuly Redeemed!</h2>
+            <h3>Please scan the QR Code to redeem the reward or view it in the <br> <a href= "{% url 'customer:history_all' %}">Recent Activity Page<a/>.</h3>
+            <button class="btn return" onclick="closeSuccessfulPopup()">Return</button>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/redeemVoucher.js' %}"></script>
+{% endblock %}

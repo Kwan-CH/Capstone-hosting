@@ -1,0 +1,89 @@
+{% extends 'operator/base_operator.html' %}
+{% load static %}
+
+{% block title %} Assigning Pickup Driver {% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/assign-driver.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<body>
+    <div class="container">
+        <div class="title-container">
+            <h1 class="title">Assign Driver</h1>
+            <h2 class="title2">Pickup's Details: </h2>
+        </div>
+
+        <form>
+            <label for="name">Name:</label>
+            <input id="name" type="text" value="{{request.customer.name}}" disabled required>
+
+            <label for="phoneNumber">Phone number:</label>
+            <input id="phoneNumber" type="text" value="{{request.customer.phoneNumber}}" disabled required>
+
+            <label for="address">Address:</label>
+            <input id="address" type="text" value="{{request.address}}" disabled required>
+        </form>
+    </div>
+
+    <div class="assignTable">
+      <table>
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Car Plate</th>
+                  <th>Area</th>
+                  <th>State</th>
+                  <th>Phone Number</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+            {% for driver in drivers %}
+              <tr>
+                  <td>{{driver.name}}</td>
+                  <td>{{driver.plateNumber}}</td>
+                  {% if driver.areaCovered %}
+                      <td>{{driver.areaCovered}}</td>
+                  {% else %}
+                      <td>-</td>
+                  {% endif %}
+                  <td>{{driver.stateCovered}}</td>
+                  <td>{{driver.phoneNumber}}</td>
+                  <td><button class="assign-btn" data-id="{{driver.driverID}}" onclick="storeDriverID(this)">Assign</button></td>
+              </tr>
+          {% endfor %}
+          </tbody>
+      </table>
+    </div>
+
+    <!-- Confirmation Popup -->
+    <div id="confirmation-popup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <h2><i>Confirmation</i></h2>
+            <p>To avoid errors, double-check the chosen driver is the right choice for this pickup.</p>
+            <button class="btn cancel" onclick="closeConfirmationPopup()">Cancel</button>
+            <button class="btn proceed" onclick="processTheRequests()">Proceed</button>
+        </div>
+    </div>
+
+    <!---------- Assigned Successfully Popup ------------>
+        <div id="successful-popup" class="popup-container" style="display: none;">
+            <div class="popup-content">
+                <img src="{% static 'images/Picture1.png' %}" alt="JAS Logo" class="popup-logo">
+                <h2>Congratulation!</h2>
+                <p class="popup-text">Pickup assigned! The customer’s items will be collected shortly.</p>
+                <a href="{% url 'operator:manageReq' %}">
+                  <button>Back</button>
+                </a>
+            </div>
+        </div>
+
+    {% block extra_js %}
+        <script src="{% static 'js/assign-driver.js' %}"></script>
+    {% endblock %}
+
+</body>
+{% endblock %}

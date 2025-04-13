@@ -1,0 +1,93 @@
+{% extends 'operator/base_operator.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/operator-homepage.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+{% comment %} <header class="header-section">
+    <h1><span class="welcome">Welcome to</span> <br> <aspan class="title">Jabatan Alam Sekitar</span> <br> <span class="short-title">JAS</span></h1>
+</header>
+
+<div class="container">
+    <div class="info-box">
+        <h2>Manage Request</h2>
+        <p>View and manage all requests, including approving or rejecting them. Assign drivers to approved requests for efficient handling.</p>
+        <a href="{% url 'operator:manageReq'%}">View Details</a>
+    </div>
+
+    <div class="info-box">
+        <h2>Completed Request</h2>
+        <p>Click here to access the full details of all completed requests. View records of completed requests from the past five years.</p>
+        <a href="{% url 'operator:completed_request'%}">View History</a>
+    </div>
+
+    <div class="info-box">
+        <h2>Reward System</h2>
+        <p>Explore the complete list of rewards, with the capability to introduce new incentives or adjust existing ones.</p>
+        <a href="{% url 'operator:reward_system'%}">View Details</a>
+    </div>
+
+    <div class="info-box">
+        <h2>Create Account</h2>
+        <p>Create new accounts for pickup drivers, enabling them to access the system and manage their pickup tasks effectively.</p>
+        <a href="{% url 'operator:create_acc'%}">Create Driver Account</a>
+    </div>
+</div> {% endcomment %}
+
+<header class="header-section">
+    <h1>
+        <span class="welcome">Welcome to</span> <br>
+        <span class="title">Jabatan Alam Sekitar</span> <br>
+        <span class="short-title">JAS</span>
+    </h1>
+</header>
+
+<div class="container">
+    <div class="info-box">
+        <video autoplay loop muted class="bg-video">
+            <source src="{% static 'videos/manage-request.mp4'%}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h2>Manage Request</h2>
+        <p>View and manage all requests, including approving or rejecting them. Assign drivers for efficient handling.</p>
+        <a href="{% url 'operator:manageReq'%}" class="btn">View Details</a>
+    </div>
+
+    <div class="info-box">
+        <video autoplay loop muted class="bg-video">
+            <source src="{% static 'videos/completed-request.mp4'%}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h2>Completed Request</h2>
+        <p>Access the full details of completed requests, with records spanning the past five years.</p>
+        <a href="{% url 'operator:completed_request'%}" class="btn">View History</a>
+    </div>
+
+    <div class="info-box">
+        <video autoplay loop muted class="bg-video">
+            <source src="{% static 'videos/reward-system.mp4'%}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h2>Reward System</h2>
+        <p id="reward-p">Explore the reward list, add new incentives, or modify existing ones.</p>
+        <a href="{% url 'operator:reward_system'%}" class="btn">View Details</a>
+    </div>
+
+    <div class="info-box">
+        <video autoplay loop muted class="bg-video">
+            <source src="{% static 'videos/create-account.mp4'%}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <h2>Create Account</h2>
+        <p>Create new accounts for pickup drivers to access the system and manage tasks efficiently.</p>
+        <a href="{% url 'operator:create_acc'%}" class="btn">Create Driver Account</a>
+    </div>
+
+</div>
+
+{% endblock %}

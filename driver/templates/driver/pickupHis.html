@@ -1,0 +1,43 @@
+{% extends 'driver/base_driver.html' %}
+{% load static %}
+
+{% block title %} Pickup History {% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/pickupHis.css'%}">
+{% endblock %}
+
+{% block content %}
+    <div class="main-content">
+        <h1 class="page-title">Pickup History</h1>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Address</th>
+                        {% comment %} <th>Item</th> {% endcomment %}
+                        <th>Waste Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pickup in pickups %}
+                    <tr>
+                        <td>{{ pickup.customer.name }}</td>
+                        <td>{{ pickup.completed_requests.completed_date|date:"d/m/Y" }}</td>
+                        <td>{{ pickup.completed_requests.completed_time|time:"h:i A" }}</td>
+                        <td>{{ pickup.address }}</td>
+                        <td>{{ pickup.category.itemType }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        {% if not pickups %}
+            <p style="text-align: center;">No pickup requests found.</p>
+        {% endif %}
+    </div>
+{% endblock %}

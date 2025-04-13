@@ -1,0 +1,52 @@
+{% extends 'operator/base_operator.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/operator-rewardSystem.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Reward System{% endblock %}
+
+{% block content %}
+    <h1 class="title">Reward System</h1>
+
+    <div class="addNew">
+      <div class="addNew-text">
+      </div>
+
+      <div class="addNew-button">
+        <a href="{% url 'operator:add_reward' %}">
+            <button class="addButton">Add Reward</button>
+        </a>
+      </div>
+    </div>
+
+    <div class="rewardTable">
+      <table class>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Exchange Points</th>
+                <th>Quantity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for voucher in vouchers %}
+            <tr>
+                <td>{{ voucher.name }}</td>
+                <td>{{ voucher.pointsRequired }}</td>
+                <td>{{ voucher.quantity }}</td>
+                <td>
+                    <a href="{% url 'operator:edit_reward' voucher.voucherID %}">
+                    {% comment %} <a href="{% url 'operator:edit_reward'%}"> {% endcomment %}
+                        <button>Edit</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+   </div>
+{% endblock %}

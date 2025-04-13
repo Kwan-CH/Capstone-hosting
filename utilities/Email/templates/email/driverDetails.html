@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver & Schedule Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300..900&display=swap" rel="stylesheet">
+    <style>
+        h2 {
+            font-family: 'Sansita Swashed', cursive;
+            font-weight: bold;
+            border-bottom: 2px solidrgb(95, 187, 81);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding-top: 0px;
+            margin-top: 0px;
+        }
+        .isolated-driver-schedule,
+        .isolated-driver-schedule * {
+            all: initial;
+            display: revert;
+            box-sizing: border-box;
+        }
+
+        .isolated-driver-schedule .container {
+            max-width: 600px;
+            margin: auto;
+            background: #2f6627;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+
+        .isolated-driver-schedule .info-box {
+            background-color: #83b6bb;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .isolated-driver-schedule .details-section {
+            background: #d4edda;
+            padding: 25px;
+            text-align: left;
+        }
+
+        .isolated-driver-schedule .driver-details {
+            border-radius: 0;
+        }
+
+        .isolated-driver-schedule .schedule-details {
+            border-radius: 0 0 8px 8px;
+        }
+
+        .isolated-driver-schedule h2 {
+            color:rgb(48, 89, 42);
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 900;
+            font-size: 28px;
+            padding: 15px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        .isolated-driver-schedule .detail-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            /* Added this to make column widths consistent */
+        }
+
+        .isolated-driver-schedule .detail-label {
+            font-weight: bold;
+            color: black;
+            white-space: nowrap;
+            padding-right: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+            vertical-align: top;
+            padding-bottom: 5px;
+            width: 30%;
+            /* Fixed width for all labels */
+        }
+
+        .isolated-driver-schedule .detail-value {
+            color: black;
+            word-break: break-word;
+            font-family: Arial, Helvetica, sans-serif;
+            padding-bottom: 5px;
+            width: 70%;
+            /* Remaining width for values */
+        }
+
+        {% comment %} .isolated-driver-schedule .section-divider {
+            border: none;
+            height: 1px;
+            background-color: white;
+            margin: 0;
+        }
+        .details-section td {
+            font-size: 15px;
+        } {% endcomment %}
+        .detail-label {
+            padding-left: 20px;
+        }
+
+        td {
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        .email {
+            text-decoration: none;
+            {% comment %} color: white; {% endcomment %}
+            {% comment %} font-weight: bold; {% endcomment %}
+        }
+
+        {% comment %} /* From Uiverse.io by adamgiebl */ {% endcomment %}
+        .card {
+            width: 570px;
+            height: 254px;
+            border-radius: 20px;
+            padding: 5px;
+            box-shadow: rgba(41, 0, 203, 0.2) 0 15px 30px -5px;
+            background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+            margin-top: 10px;
+        }
+
+        .card_content {
+            {% comment %} background: rgb(27, 29, 103); {% endcomment %}
+            background: #d4edda;
+            border-radius: 17px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .card_content:hover {
+            {% comment %} background: rgb(22, 24, 75); {% endcomment %}
+            background:rgb(178, 231, 190);
+            box-shadow: rgba(41, 0, 203, 0.2) 0 15px 30px -5px;
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="isolated-driver-schedule">
+        <div class="container">
+            <div class="info-box">
+                {% comment %} <img src="https://drive.google.com/uc?export=view&id=1kd2WBNWGvYUboqDS6qcX3Bb6-Ixd9kHr"
+                    alt="Company Logo" style="width: 240px; height: 80px;"> {% endcomment %}
+                <img src="https://drive.google.com/uc?export=view&id=1bk7IwFq6XDikkWxlXUwVW5pHDuhRd1hH"
+                    alt="Company Logo" style="width: 240px; height: 80px;">
+            </div>
+
+            <div class="card">
+                <div class="card_content">
+                    <h2>Driver Details</h2>
+                    <table class="detail-table">
+                        <tr>
+                            <td class="detail-label">Name:</td>
+                            <td class="detail-value">{{ driver.name }}</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Contact:</td>
+                            <td class="detail-value">{{ driver.phoneNumber }}</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Email:</td>
+                            <td class="detail-value email" style="text-decoration: none; font-weight: bold;">{{ driver.email }}</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Plate Number:</td>
+                            <td class="detail-value">{{ driver.plateNumber }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            {% comment %} <hr class="section-divider"> {% endcomment %}
+
+            <div class="card">
+                <div class="card_content">
+                    <h2>Schedule Request Details</h2>
+                    <table class="detail-table">
+                        <tr>
+                            <td class="detail-label">Date:</td>
+                            <td class="detail-value">{{ request.date|date:"d/m/Y" }}</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Time:</td>
+                            <td class="detail-value">{{ request.time|time:"h:i A" }}</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Address:</td>
+                            <td class="detail-value">{{ request.address }}</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Category:</td>
+                            <td class="detail-value">{{ request.category.itemType }}</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Quantity:</td>
+                            <td class="detail-value">{{ request.quantity }} items</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+{% extends 'driver/base_driver.html' %}
+{% load static %}
+
+{% block title %} User Profile {% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/userprofile-driver.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container-top">
+    <div class="profile-container">
+        <form method="POST" action="{% url 'driver:user_profile' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="profile-picture">
+                <!-- Show the existing profile picture -->
+                {% if profile.profile_picture %}
+                    <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" id="profile-pic-preview">
+                {% else %}
+                    <img src="{% static 'images/userprofilelogo.jpg' %}" alt="Profile Picture" id="profile-pic-preview">
+                {% endif %}
+
+
+                <label for="profile-pic-input" title="Change Profile Picture">✏️</label>
+                <input type="file" name="profile_picture" id="profile-pic-input" accept="image/*"> 
+            </div>
+
+            <span class="error" id="profile-pic-error"></span>
+
+            <!-- Submit button -->
+            {% comment %} <button type="submit">Save Profile Picture</button> {% endcomment %}
+        </form>
+    </div>
+
+    <h1>Your User Profile</h1>
+</div>
+    
+
+        <div class="container">
+            <div class="profile-form">
+                <label>Name</label>
+                <input type="text" class="input" value="{{profile.name}}"  disabled>
+
+                <label>Email</label>
+                <input type="text" class="input" value="{{profile.email}}" disabled>
+
+                <label>Contact Number</label>
+                <input type="text" class="input" value="{{profile.phoneNumber}}" disabled>
+
+                <label>Car Plate Number</label>
+                <input type="text" class="input"  value="{{profile.plateNumber}}"  disabled>
+
+                <label>Password</label>
+                <div class="password-container">
+                    <input type="password" class="input password-box" value="{{profile.password}}" disabled>
+                    <a href="{% url 'driver:edit_password' %}" id="editpassword">Edit Password</a>
+                </div>
+
+                <label>State Covered</label>
+                <input type="text" class="input"  value="{{profile.stateCovered}}" disabled>
+
+                <label>Area Covered</label>
+                <input type="text" class="input"  value="{{profile.areaCovered}}" disabled>
+
+                <a href="{% url 'driver:edit_profile' %}" id="edit-profile">Edit Your Profile</a>
+            </div>
+        </div>
+    </div>
+
+    {% comment %} {% if update_success %}
+        <script>
+            alert('Profile has been updated');
+        </script>
+    {% endif %} {% endcomment %}
+
+    <script>
+        // Event listener for the file input change
+        document.getElementById('profile-pic-input').addEventListener('change', function(e) {
+            var formData = new FormData();
+            formData.append('profile_picture', e.target.files[0]);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');  // Attach CSRF token
+            
+            // Send the image to the server via AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '{% url "driver:user_profile" %}', true);
+            
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // Update the profile picture preview if the upload is successful
+                    var response = JSON.parse(xhr.responseText);
+                    document.getElementById('profile-pic-preview').src = response.new_profile_picture_url;
+                } else {
+                    document.getElementById('profile-pic-error').textContent = "Error uploading the image.";
+                }
+            };
+            
+            xhr.send(formData);
+        });
+    </script>
+    
+    
+
+
+{% endblock %}

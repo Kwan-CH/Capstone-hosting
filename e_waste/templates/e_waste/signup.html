@@ -1,0 +1,151 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sign Up{% endblock %}</title>
+    {% block extra_css %}
+        <link rel="stylesheet" href="{% static 'e_waste/css/signup.css' %}">
+    {% endblock %}
+
+
+</head>
+
+{% block content %}
+<div class="container">
+    <a href="{% url 'landing' %}"><img src="{% static 'images/companylogonobg.png' %}" id="logo" width="400" height="150" alt="company logo"></a>
+    <div class="signup">
+        <form class="form" action= {% url 'signup' %} method="POST">
+            {% csrf_token %}
+            <p class="form-title">Create an account</p>
+
+            <div class="inputGroup">
+                <input type="email" name="email" required autocomplete="off">
+                <label for="email">Email</label>
+            </div>
+            <br>
+
+            <div class="inputGroup">
+                <input type="text" name="fullname" required autocomplete="off">
+                <label for="name">Full Name</label>
+            </div>
+            <br>
+
+            <div class="inputGroup">
+                <input type="password" name="password" required autocomplete="off">
+                <label for="password">Password</label>
+            </div>
+            <br>
+
+            <div class="inputGroup">
+                <input type="password" name="confirm_password" required autocomplete="off">
+                <label for="password">Re-Enter Password</label>
+                {% if error %}
+                    <p style="color: red;">{{ error }}</p>
+                {% endif %}
+            </div>
+            <br>
+
+            <div class="inputGroup">
+                <input type="tel" name="contact_number" required autocomplete="off">
+                <label for="contact">Contact Number</label>
+                <p>*No dash required</p>
+            </div>
+            <br>
+
+            <div class="input select">
+                <input type="hidden" name="state" id="state_text">
+                <select id="stateDropdown" onchange="populateAreaDropdown('stateDropdown', 'areaDropdown', null, 'state_text', '{{API_KEY}}')" required>
+                    <option value="" disabled selected>Select your state</option>
+                    {% for state, siso in states.items %}
+                        <option value="{{siso}}">{{state}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+            <div class="codecityside">
+                <div class="input select" style="width:100%">
+                    <select id="areaDropdown" name="area" required>
+                        <option value="" disabled selected>Select area</option>
+                    </select>
+                </div>
+
+                <div class="inputGroup">
+                    <input type="text" name="postal_code" required autocomplete="off">
+                    <label for="postalcode">Postal Code</label>
+                </div>
+                <br>
+            </div>
+            <div class="inputGroup">
+                <input type="text" name="street" required autocomplete="off">
+                <label for="housenumber">House Number & Street Name</label>
+            </div>
+        <br>
+            <button class="submit" type="submit">Sign up</button>
+
+            <p class="login-link">
+                Already have an account?
+                <a id="login" href="{% url 'login' %}">Log in here!</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+<!---------- Account Created Successfully Popup ------------>
+<div id="successful-popup" class="popup-container" style="display: none;">
+    <div class="popup-content">
+        <img src="{% static 'images/companylogonobg.png'%}" alt="JAS Logo" class="popup-logo" width: 100px;>
+        <h2>Congratulations!</h2>
+        <h2>Your account has been created!</h2>
+        <a href="{% url 'customer:homepage-customer'%}">
+            <button>Proceed</button>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+<div id="embedded-footer">
+    {% include 'footer.html' %}
+</div>
+
+{% block extra_js %}
+    <script src="{% static 'populateAreaDropdown.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector(".form").addEventListener("submit", function (event) {
+                event.preventDefault();  // Prevent default form submission
+
+                let formData = new FormData(this);
+
+                fetch("{% url 'signup' %}", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showSuccessfulPopup();  // Show success popup
+                    } else {
+                        alert(data.error);  // Show error message
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            });
+
+            // Handle "Back" button click inside the popup
+            document.getElementById("back-button").addEventListener("click", function () {
+                window.location.href = "{% url 'customer:homepage-customer' %}";
+            });
+        });
+
+        function showSuccessfulPopup() {
+            document.getElementById("successful-popup").style.display = "flex";
+        }
+
+    </script>
+{% endblock %}

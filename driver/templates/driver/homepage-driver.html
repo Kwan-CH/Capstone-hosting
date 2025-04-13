@@ -1,0 +1,166 @@
+{% extends 'driver/base_driver.html' %}
+{% load static %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/homepage-driver.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+<div class="dark-overlay" id="darkOverlay"></div>
+
+<main>
+    <article>
+        <h1 class="headline">Welcome to</h1>
+        <h1 class="headline">Jabatan Alam Sekitar</h1>
+        <h1 class="headline short-title">JAS</h1>
+    </article>
+</main>
+
+<div class="container c1">
+    <div class="caption">
+        <h1>View Pickup Details</h1>
+        <h2>Details of pickups scheduled for you will be displayed here. Once a pickup has been completed, please
+            click the button to mark
+            the pickup as "Picked Up".</h2>
+        <a class="link" href="{% url 'driver:pickup_details'%}">Click here to view the pickup details</a>
+    </div>
+    <picture> <img src= "{% static 'images/viewdetails.png' %}" alt="view details" style="width: 300px; height: 300px;">
+    </picture>
+</div>
+
+<div class="container c2">
+    <div class="caption">
+        <h1>Mark Pickups as Completed</h1>
+        <h2>Once a pickup has been collected and delivered to the recycling center, please click the "Completed"
+            button
+            to update the status in the system. Please ensure all details are accurate before marking it as
+            completed.
+        </h2>
+        <a class="link" href="{% url 'driver:complete_pickup'%}">Click here to mark pickups as completed</a>
+
+    </div>
+    <picture> <img src="{% static 'images/markascomplete.png' %}" alt="complete" style="width: 300px; height: 250px;"></picture>
+</div>
+
+<div class="container c1">
+    <div class="caption">
+        <h1>View Pickup History</h1>
+        <h2>All past pickups with their details will be registered into this page. Please refer to this page for any
+            clarifications.
+            Pickups for up to 5 years will be displayed.
+        </h2>
+        <a class="link" href="{% url 'driver:pickup_history'%}">Click here to view the pickup history</a>
+
+    </div>
+    <picture> <img src="{% static 'images/viewhistory.png'%}" alt="history" style="width: 300px; height: 300px;"></picture>
+</div>
+
+</main>
+
+<div class="scroll-indicator" id="scrollIndicator">
+    <span>Scroll Down ⬇</span>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function inView(opt) {
+        if (opt.selector === undefined) {
+            console.log('Valid selector required for inView');
+            return false;
+        }
+        var elems = [].slice.call(document.querySelectorAll(opt.selector)),
+            once = opt.once === undefined ? true : opt.once,
+            offsetTop = opt.offsetTop === undefined ? 0 : opt.offsetTop,
+            offsetBot = opt.offsetBot === undefined ? 0 : opt.offsetBot,
+            count = elems.length,
+            winHeight = 0,
+            ticking = false;
+
+        function update() {
+            var i = count;
+            while (i--) {
+                var elem = elems[i],
+                    rect = elem.getBoundingClientRect();
+                if (rect.bottom >= offsetTop && rect.top <= winHeight - offsetBot) {
+                    elem.classList.add('in-view');
+                    if (once) {
+                        count--;
+                        elems.splice(i, 1);
+                    }
+                } else {
+                    elem.classList.remove('in-view');
+                }
+            }
+            ticking = false;
+        }
+
+        function onResize() {
+            winHeight = window.innerHeight;
+            requestTick();
+        }
+
+        function onScroll() {
+            requestTick();
+        }
+
+        function requestTick() {
+            if (!ticking) {
+                requestAnimationFrame(update);
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('resize', onResize, false);
+        document.addEventListener('scroll', onScroll, false);
+        document.addEventListener('touchmove', onScroll, false);
+
+        onResize();
+    }
+
+    inView({
+        selector: '.container',
+        once: false,
+        offsetTop: 0,
+        offsetBot: 50
+    });
+
+    // scroll
+    (function () {
+        var img = document.getElementById('background'), opacity;
+        var min = 0.15;
+
+        function setBackgroundOpacity() {
+            opacity = 1 - window.scrollY / (screen.height + 100);
+            img.style.opacity = opacity > min ? opacity : min;
+        }
+
+        window.addEventListener('scroll', setBackgroundOpacity);
+    })();
+
+    window.addEventListener("scroll", function () {
+        const indicator = document.getElementById("scrollIndicator");
+        if (window.scrollY > 50) { // Hide after scrolling 50px
+            indicator.style.opacity = "0";
+        } else {
+            indicator.style.opacity = "1";
+        }
+    });
+
+    window.addEventListener("scroll", function () {
+        const overlay = document.getElementById("darkOverlay");
+
+        if (window.scrollY > 50) {
+            overlay.style.opacity = "0.3";
+        } else {
+            overlay.style.opacity = "0";
+        }
+    });
+
+</script>
+{% endblock %}

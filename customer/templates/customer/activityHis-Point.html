@@ -1,0 +1,82 @@
+{% extends 'customer/base_customer.html' %}
+{% load static %}
+
+{% block title %}Activity History{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/activityHis-Point.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300;400;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <h1 class="title">Activity History</h1>
+
+    <!-- Navigation Buttons -->
+    <div class="btn-container">
+        <a href="{% url 'customer:history_all' %}">
+            {% comment %} <button class="tab-btn" onclick="location.href={% url 'customer:history_all' %}">All</button> {% endcomment %}
+            <button class="tab-btn">All</button>
+        </a>
+        <a href="{% url 'customer:device_recycled' %}">
+            {% comment %} <button class="tab-btn" onclick="location.href={% url 'customer:device_recycled' %}">Device Recycle</button> {% endcomment %}
+            <button class="tab-btn">Device Recycle</button>
+        </a>
+        <a href="{% url 'customer:voucher_redeemed' %}">
+            <button class="tab-btn active">Points Spend</button>
+            {% comment %} <button class="tab-btn active" onclick="location.href={% url 'customer:voucher_redeemed' %}">Points Spend</button> {% endcomment %}
+        </a>
+    </div>
+
+    {% for voucher in vouchers %}
+        <div class="activity-container">
+            <div class="activity-card">
+                <table>
+                    <tr>
+                        <td><strong>Item Code: {{ voucher.voucher__voucherID }}</strong></td>
+                        <td>📅 Date: {{ voucher.date|date:"d/m/Y" }}</td>
+                    </tr>
+                    <tr>
+                        <td>📱 Item Name: {{ voucher.voucher__name }}</td>
+                        <td>⏰ Time: {{ voucher.time|time:"h:i A" }}</td>
+                    </tr>
+                </table>
+                <div class="points-deducted">Points Deducted: -{{ voucher.voucher__pointsRequired }} points</div>
+                <div class="show-qr">
+                    {% comment %} <button id="show-qr">🎁 Click here to view QR</button> {% endcomment %}
+                    <button class="show-qr qr-code">🎁 Click here to view QR</button>
+                </div>
+            </div>
+        </div>
+
+        <!---------- QR Code Popup ------------>
+        <div id="qr-popup" class="popup-container" style="display: none;">
+            <div class="popup-content">
+                <h2>Please scan the code below to redeem the reward</h2>
+                <img src="{% static 'images/QRCode.png'%}" alt="QR Code" class="popup-logo">
+                <button class="btn return" onclick="closeSuccessfulPopup()">Return</button>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div>
+        {% if not Empty %}
+            {% if vouchers.has_previous %}
+                <a href="?page={{ vouchers.previous_page_number }}" style="text-decoration:none;"> &larr; Previous</a>
+            {% endif %}
+
+            <span>Page {{ vouchers.number }} of {{ vouchers.paginator.num_pages }}</span>
+
+            {% if vouchers.has_next %}
+                <a href="?page={{ vouchers.next_page_number }}" style="text-decoration:none;">Next &rarr; </a>
+            {% endif %}
+        {% else %}
+            <p>No vouchers Have Been Redeemed</p>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/activityHis-Point.js' %}"></script>
+    <script> </script>
+{% endblock %}

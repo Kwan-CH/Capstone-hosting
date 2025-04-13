@@ -1,0 +1,147 @@
+{% extends 'operator/base_operator.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/operator-manageReq.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Manage Request{% endblock %}
+
+{% block content %}
+
+<body>
+    <h1 class="title">Manage Request</h1>
+
+    <div class="manageTable">
+      <table>
+        <thead>
+            <tr>
+                <th>Scheduled Date</th>
+                <th>Scheduled Time</th>
+                <th>Address</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Assigned Driver</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+         <tbody>
+          {% for request in requests %}
+            <tr><!-- Customer Name -->
+                <td class="date">{{ request.date|date:"d/m/Y" }}</td>
+                <td class="time">{{ request.time|time:"h:i A" }}</td>
+                <td class="address">
+                    <a href="https://www.google.com/maps?q={{ request.address|urlencode }}"
+                       target="_blank">{{ request.address }}</a>
+                </td>
+                <td class="itemCategory">{{request.category.itemType}}</td>
+                <td class="category">{{ request.quantity }}</td>  <!-- Waste Type (Category Name) -->
+                {% if request.driver.name %}
+                    <td class="driver">{{ request.driver.name }}</td>
+                {% else %}
+                    <td>-</td>
+                {% endif %}
+                {% if request.status == 'Rejected' %}
+                    <td class="status">{{ request.status }} <br>({{request.rejectedReason.reason}})</td>
+                {% else %}
+                    <td class="status">{{ request.status }}</td>
+                {% endif %}
+                {% if request.status == 'Pending' %}
+                    <td><button class="update-btn" data-id="{{request.requestID}}" onclick="storeRequestID(this)">Update</button></td>
+                {% else %}
+                    <td><button class="disabled-btn" disabled>Update</button></td>
+                {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  <!-- Confirmation Popup -->
+  <div id="confirmation-popup" class="popup-container" style="display: none;">
+    <div class="popup-content">
+        <button class="popup-close" onclick="closeConfirmationPopup()">×</button>
+        <h2><i>Update Request Status</i></h2>
+        <img src="{% static 'images/update-req.png' %}" class="popup-logo">
+        <!-- Buttons -->
+        <div class="btn-container">
+          <div class="button1">
+            <button onclick="showSuccessfulPopup()" class="btn-save">Approve</button>
+          </div>
+
+          <div class="button2">
+            <button class="btn-cancel" onclick="showRejectReqPopup()">Reject</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  <!---------- Approved Popup ------------>
+    <div id="sucessful-popup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <img src="{% static 'images/approved.png' %}" alt="JAS Logo" class="popup-logo">
+            <p class="popup-text">A pickup request has been approved.</p>
+
+            <!-- Buttons -->
+            <div class="btn-container">
+              <div class="button1">
+                  <button class="btn-save" onclick="assignDriverPage()">Proceed</button>
+              </div>
+
+              <div class="button2">
+                <button class="btn-cancel" onclick="closeTrackingPopup()">Back</button>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <!------- Reject Request Popup ------>
+    <div id="rejectReq-popup" class="popup-container">
+      <div class="popup-content">
+          <h2><i>Reject Request</i></h2>
+          <form class="reject-form">
+
+            <label for="reason" class="reject-label">
+                Please specify why the pickup request was denied:
+            </label>
+            <select id="reason" class="reject-dropdown">
+                <option value="" selected disabled>Select Reason</option>
+                {% for reason in reasons %}
+                    <option value="{{reason.reasonID}}">{{reason.reason}}</option>
+                {% endfor %}
+            </select>
+          <!-- Buttons -->
+          <div class="btn-container">
+            <div class="button1">
+              <button type="button" onclick="rejectRequest()" class="btn-save">Proceed</button>
+            </div>
+
+            <div class="button2">
+                <button class="btn-cancel">Back</button>
+            </div>
+          </div>
+         </form>
+        </div>
+      </div>
+
+       <!---------- Rejected Popup ------------>
+      <div id="rejected-popup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <img src="{% static 'images/rejected.png' %}" alt="JAS Logo" class="popup-logo">
+            <p class="popup-text">A pickup request has been rejected.</p>
+
+            <div class="button2">
+              <button class="btn-cancel" onclick="closeRejectedPopup()">Back</button>
+            </div>
+        </div>
+      </div>
+
+{% block extra_js %}
+    <script src="{% static 'js/manageRequest.js' %}"></script>
+{% endblock %}
+
+</body>
+{% endblock %}
