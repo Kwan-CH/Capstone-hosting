@@ -91,22 +91,29 @@ WSGI_APPLICATION = 'e_waste.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
     # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'e-waste',
-    #     'USER': 'root',
-    #     'PASSWORD': '',
-    #     'HOST': 'localhost',
-    #     'PORT': '3306'
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     # 'NAME': BASE_DIR / 'db.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'e_waste',
+        'USER': 'avnadmin',
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': 'mysql-23ecb9bb-wastemanagement.l.aivencloud.com',
+        'PORT': '23589',
+
+    }
 }
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
 
 
 
@@ -158,11 +165,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
