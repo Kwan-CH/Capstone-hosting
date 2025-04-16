@@ -94,10 +94,17 @@ WSGI_APPLICATION = 'e_waste.wsgi.application'
 import os
 from dotenv import load_dotenv
 import base64
+import tempfile
 
 load_dotenv()
 
-print(base64.b64decode(os.getenv('DATABASE_CERT')).decode('utf-8'))
+# Decode base64 cert and write to a temp file
+ca_cert_content = base64.b64decode(os.getenv('DATABASE_CERT'))
+
+# Create a temp file to hold the cert
+temp_cert_file = tempfile.NamedTemporaryFile(delete=False, suffix=".pem")
+temp_cert_file.write(ca_cert_content)
+temp_cert_file.flush()  # Ensure it's written to disk
 
 DATABASES = {
     # 'default': {
@@ -114,7 +121,7 @@ DATABASES = {
         'PORT': '23589',
         'OPTIONS': {
             'ssl': {
-                'ca': base64.b64decode(os.getenv('DATABASE_CERT')).decode('utf-8'),
+                'ca': temp_cert_file.name,
             }
         }
     }
