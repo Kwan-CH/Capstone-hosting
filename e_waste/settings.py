@@ -99,7 +99,7 @@ load_dotenv()
 
 ca_cert_path = os.path.join(BASE_DIR, 'tmp_ca.pem')
 with open(ca_cert_path, 'wb') as f:
-    f.write(base64.b64decode(os.getenv('MYSQL_CA_CERT_B64')))
+    f.write(base64.b64decode(os.getenv('DATABASE_CERT')))
 
 DATABASES = {
     # 'default': {
