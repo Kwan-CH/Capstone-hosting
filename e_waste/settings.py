@@ -93,8 +93,13 @@ WSGI_APPLICATION = 'e_waste.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 import os
 from dotenv import load_dotenv
+import base64
 
 load_dotenv()
+
+ca_cert_path = os.path.join(BASE_DIR, 'tmp_ca.pem')
+with open(ca_cert_path, 'wb') as f:
+    f.write(base64.b64decode(os.getenv('MYSQL_CA_CERT_B64')))
 
 DATABASES = {
     # 'default': {
@@ -109,7 +114,11 @@ DATABASES = {
         'PASSWORD': os.getenv('DATABASE_PASSWORD'),
         'HOST': 'mysql-23ecb9bb-wastemanagement.l.aivencloud.com',
         'PORT': '23589',
-
+        'OPTIONS': {
+            'ssl': {
+                'ca': ca_cert_path,
+            }
+        }
     }
 }
 # DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
