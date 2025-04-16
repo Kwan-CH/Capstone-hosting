@@ -97,11 +97,7 @@ import base64
 
 load_dotenv()
 
-ca_cert_path = os.path.join(BASE_DIR, 'tmp_ca.pem')
-with open(ca_cert_path, 'wb') as f:
-    f.write(base64.b64decode(os.getenv('DATABASE_CERT')))
-
-print(ca_cert_path)
+print(base64.b64decode(os.getenv('DATABASE_CERT')).decode('utf-8'))
 
 DATABASES = {
     # 'default': {
